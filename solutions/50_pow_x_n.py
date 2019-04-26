@@ -25,13 +25,13 @@ class Solution:
             n = -n
             x = 1 / x
             
-        ret = 1
+        t = 1
             
         while n:
             if n % 2:
-               ret *= x
+               t *= x
             x *= x
             n //= 2
         
-        return ret 
+        return t 
       
