@@ -4,12 +4,10 @@ class Solution:
 
     	Running time: O(n) where n is the length of arr.
     	"""
-        max_v = arr[-1]
-        arr[-1] = -1
-        
-        for i in range(len(arr) - 2, -1, -1):
-            t = arr[i]
-            arr[i] = max_v
-            max_v = max(max_v, t)
-            
-        return arr
+        n = len(arr)
+        res = [0] * (n - 1) + [-1] 
+        m = arr[-1]
+        for i in range(n - 2, -1, -1):
+            res[i] = m
+            m = max(m, arr[i])
+        return res

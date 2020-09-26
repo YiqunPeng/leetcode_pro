@@ -6,14 +6,14 @@ class Solution:
         """
         arr.sort()
 
-        min_abs = arr[-1] - arr[0]
+        m = arr[-1] - arr[0]
         ret = []
         
         for i in range(1, len(arr)):
-            if arr[i] - arr[i-1] == min_abs:
+            if arr[i] - arr[i-1] == m:
                 ret.append([arr[i-1], arr[i]])
-            elif arr[i] - arr[i-1] < min_abs:
+            elif arr[i] - arr[i-1] < m:
                 ret = [[arr[i-1], arr[i]]]
-                min_abs = arr[i] - arr[i-1]
+                m = arr[i] - arr[i-1]
         
         return ret

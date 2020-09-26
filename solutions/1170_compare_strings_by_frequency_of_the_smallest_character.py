@@ -1,32 +1,36 @@
 class Solution:
     def numSmallerByFrequency(self, queries: List[str], words: List[str]) -> List[int]:
+        fw = sorted([self._get_f(w) for w in words])
+        return [self._query(fw, q) for q in queries]
+        
+    def _get_f(self, w):
+        """Running time: O(n) where n is the length of w.
+        """
+        c = w[0]
+        f = 1
+        for i in w[1:]:
+            if i == c:
+                f += 1
+            elif i < c:
+                f = 1
+                c = i
+        return f
+    
+    def _query(self, fw, q):
+        fq = self._get_f(q)
+        return self._search(fw, fq)
+    
+    def _search(self, fw, fq):
         """Binary search.
 
-        Running time: O(w + qlogw) where q is the length of queries and w is the length of words.
+        Running time: O(klogk) where k is the length of fw.
         """
-        def get_frequency(word):
-            w = collections.Counter(word)
-            for c in string.ascii_lowercase:
-                if c in w:
-                    return w[c]
-        
-        def compare(qf, f):
-            if qf >= f[0]:
-                return 0
-            if qf < f[-1]:
-                return len(f)
-            
-            l, r = 0, len(f) - 1
-            while l < r:
-                m = l + (r - l) // 2
-                if f[m-1] > qf >= f[m]:
-                    return m
-                elif qf < f[m]:
-                    l = m + 1
-                else:
-                    r = m
-            return r
-        
-        f = sorted([get_frequency(word) for word in words], reverse=True)
-        return [compare(get_frequency(q), f) for q in queries]
+        l, r = 0, len(fw) - 1
+        while l <= r:
+            m = (l + r) // 2
+            if fw[m] <= fq:
+                l = m + 1
+            else:
+                r = m - 1
+        return len(fw) - l
                

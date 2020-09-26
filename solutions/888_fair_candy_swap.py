@@ -4,12 +4,10 @@ class Solution:
 
     	Running time: O(n) where n is the length of A plus the length of B. 
     	"""
-        a_s, b_s = sum(A), sum(B)
-        a, b = set(A), set(B)
-        
-        avg = (a_s + b_s) // 2
-        
+        d = sum(A) - sum(B)
+        a = set(A)
+        b = set(B)
         for i in a:
-            if avg - a_s + i in b:
-                return i, avg - a_s + i
+            if (i - d // 2) in b:
+                return [i, i - d // 2]
  

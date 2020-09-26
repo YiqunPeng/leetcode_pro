@@ -26,3 +26,11 @@ class Solution:
             i += 1
         
         return res
+
+
+class Solution1:
+    def kWeakestRows(self, mat: List[List[int]], k: int) -> List[int]:
+        powers = [(sum(mat[i]), i)  for i in range(len(mat))]
+        powers.sort(key=lambda x: (x[0], x[1]))
+        return [p[1] for p in powers[:k]]
+        

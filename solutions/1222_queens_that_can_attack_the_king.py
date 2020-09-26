@@ -34,6 +34,4 @@ class Solution:
                     ret[7] = [x, y]
                     
         return [i for i in ret if i]
-        
-        
-        
+       
