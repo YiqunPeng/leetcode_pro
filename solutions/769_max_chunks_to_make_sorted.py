@@ -4,14 +4,11 @@ class Solution:
 
     	Running time: O(n) where n is the length of arr.           
     	"""
-        res = 0     
-        p, r = 0, 0 
-        
-        while p < len(arr):
-            r = max(r, arr[p])    
-            if r == p:
+        res = 0
+        m = -1
+        for i in range(len(arr)):
+            m = max(m, arr[i])
+            if m == i:
                 res += 1
-            p += 1
-        
         return res
                            

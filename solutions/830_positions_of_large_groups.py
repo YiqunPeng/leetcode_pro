@@ -4,18 +4,13 @@ class Solution:
 
         Running time: O(n) where n is the length of S.
         """
-        l, r = 0, 1
+        l, r = 0, 0
         res = []
-        
-        while r < len(S):
-            if S[l] != S[r]:
-                if r - l >= 3:
-                    res.append([l, r - 1])
-                l = r
-            r += 1
-                
-        if r - l >= 3:
-            res.append([l, r - 1])
-        
+        while r < len(s):
+            while r < len(s) and s[l] == s[r]:
+                r += 1
+            if r - l > 2:
+                res.append([l, r - 1])
+            l = r
         return res
         

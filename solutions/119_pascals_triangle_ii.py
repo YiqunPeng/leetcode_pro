@@ -2,12 +2,10 @@ class Solution:
     def getRow(self, rowIndex: int) -> List[int]:
     	"""Math.
 
-    	Running time: O(rowIndex)
+    	Running time: O(rowIndex^2).
     	"""
-        ret = [0] * (rowIndex + 1)
-        ret[0] = 1
-        
-        for c in range(1, rowIndex + 1):
-            ret[c] = ret[c-1] * (rowIndex + 1 - c) // c
-            
-        return ret
+        row = [1] * (rowIndex + 1)
+        for i in range(1, rowIndex + 1):
+            for j in range(i - 1, 0, -1):
+                row[j] += row[j-1]
+        return row

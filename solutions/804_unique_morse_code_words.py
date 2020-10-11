@@ -4,6 +4,14 @@ class Solution:
 
     	Running Time: O(c) where c is total amount of char in words.
     	"""
-        morse = [".-","-...","-.-.","-..",".","..-.","--.","....","..",".---","-.-",".-..","--","-.","---",".--.","--.-",".-.","...","-","..-","...-",".--","-..-","-.--","--.."]
+        s = set()
+        for w in words:
+            c = self._encode(w, codes)
+            s.add(c)
+        return len(s)
 
-        return len(set(''.join(morse[ord(c) - ord('a')] for c in word) for word in words))
+    def _encode(self, word, codes):
+        res = ''
+        for w in word:
+            res += codes[ord(w) - ord('a')]
+        return res

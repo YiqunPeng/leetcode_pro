@@ -4,11 +4,11 @@ class Solution:
         """
         s = word1 == word2
         i0 = -1
-        d = sys.maxsize
+        d = len(words)
         
         for i, w in enumerate(words):
             if w == word1 or w == word2:
-                if i0 != -1 and (s or (not s and words[i] != words[i0])):
+                if i0 != -1 and (s or words[i] != words[i0]):
                     d = min(d, i - i0)
                 i0 = i
         

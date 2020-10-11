@@ -1,23 +1,22 @@
 class Solution:
     def imageSmoother(self, M: List[List[int]]) -> List[List[int]]:
-        if not M:
-            return None
-        
+        """Array.
+
+        Running time: O(m * n) where m and n are the size of M.
+        """
         m, n = len(M), len(M[0])
-        ret = [[0] * n for i in range(m)]
-        
-        directions = [(-1, -1), (-1, 0), (-1, 1),
-                      (0, -1), (0, 0), (0, 1),
-                      (1, -1), (1, 0), (1, 1)]
-        
+        res = [[0] * n for i in range(m)]
         for i in range(m):
             for j in range(n):
-                s, cnt = 0, 0 
-                for d in directions:
-                    ni, nj = i + d[0], j + d[1]
-                    if 0 <= ni < m and 0 <= nj < n:
-                        s += M[ni][nj]
-                        cnt += 1
-                ret[i][j] = s // cnt
-        
-        return ret
+                res[i][j] = self._smooth(M, i, j)
+        return res
+    
+    def _smooth(self, M, r, c):
+        m, n = len(M), len(M[0])
+        s = 0
+        rl, rr = max(0, r - 1), min(r + 2, m)
+        cl, cr = max(0, c - 1), min(c + 2, n)
+        for i in range(rl, rr):
+            for j in range(cl, cr):
+                s += M[i][j]               
+        return s // ((rr - rl) * (cr - cl))

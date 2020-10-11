@@ -5,11 +5,14 @@ class Solution:
         Running time: O(k) where k is the area of the board.
         """
         def count(i, j, m, n):
-            c = 0
-            for ni, nj in [(i-1,j-1), (i-1,j), (i-1,j+1), (i,j-1), (i,j+1), (i+1,j-1), (i+1,j), (i+1, j+1)]:
-                if 0 <= ni < m and 0 <= nj < n and abs(board[ni][nj]) == 1:
-                    c += 1
-            return c    
+            s = 0
+            for i in range(max(0, r-1), min(r+2, len(board))):
+                for j in range(max(0, c-1), min(c+2, len(board[0]))):
+                    if i == r and c == j:
+                        continue
+                    if abs(board[i][j]) == 1:
+                        s += 1
+            return s 
             
         
         m, n = len(board), len(board[0])

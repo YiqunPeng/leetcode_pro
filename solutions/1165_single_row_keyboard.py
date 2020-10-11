@@ -4,16 +4,10 @@ class Solution:
 
         Running time: O(n) where n is the length of word.
         """
-        d = {}
-        for i, key in enumerate(keyboard):
-            d[key] = i
-            
-        ret = 0
+        d = {keyboard[i]:i for i in range(26)}
+        res = 0
         p = 0
-        
-        for c in word:
-            idx = d[c]
-            ret += abs(idx - p)
-            p = idx
-        
-        return ret
+        for w in word:
+            res += abs(d[w] - p)
+            p = d[w]
+        return res
