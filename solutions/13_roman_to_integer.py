@@ -1,28 +1,15 @@
 class Solution:
     def romanToInt(self, s: str) -> int:
-        """Stack.
+        """String.
 
         Running time: O(n) where n is the length of s.
         """
-        symbols = {
-            'I': 1,
-            'V': 5,
-            'X': 10,
-            'L': 50,
-            'C': 100,
-            'D': 500,
-            'M': 1000
-        }
-        
+        d = {'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000}
         res = 0
-        st = []
-        
-        for c in s:
-            while st and symbols[c] > symbols[st[-1]]:
-                res -= symbols[st.pop()]
-            st.append(c)
-            
-        while st:
-            res += symbols[st.pop()]
+        for i in range(len(s)):
+            if i < len(s) - 1 and d[s[i+1]] > d[s[i]]:
+                res -= d[s[i]]
+            else:
+                res += d[s[i]]
         return res
             

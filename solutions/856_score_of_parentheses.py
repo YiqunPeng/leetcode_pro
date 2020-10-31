@@ -4,16 +4,11 @@ class Solution:
 
         Running time: O(n) where n is the length of S.
         """
-        st = []
-        ret = 0
+        st = [0]
         for s in S:
             if s == '(':
                 st.append(0)
             else:
                 v = st.pop()
-                if st:
-                    st[-1] += max(1, v * 2)
-                else:
-                    ret += max(1, v * 2)
-                    
-        return ret
+                st[-1] += max(1, 2 * v)
+        return st[0]

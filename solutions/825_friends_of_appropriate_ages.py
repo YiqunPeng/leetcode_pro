@@ -1,21 +1,14 @@
 class Solution:
     def numFriendRequests(self, ages: List[int]) -> int:
-        import bisect
-
-        ages.sort()
-        
-        f = 0
-        last = 0
-        
-        for i in range(len(ages)):
-            if i and ages[i] == ages[i-1]:
-                f += last
-                continue
-                
-            t = 0.5 * ages[i] + 7
-            l = bisect.bisect_right(ages, t)
-            r = bisect.bisect_right(ages, ages[i])
-            last = max(r - l - 1, 0) 
-            f += last
-            
-        return f
+        """Hash table.
+        """
+        c = collections.Counter(ages)
+        res = 0
+        for ka, va in c.items():
+            for kb, vb in c.items():
+                if kb > 0.5 * ka + 7 and kb <= ka:
+                    if ka == kb:
+                        res += va * (va - 1)
+                    else:
+                        res += va * vb 
+        return res

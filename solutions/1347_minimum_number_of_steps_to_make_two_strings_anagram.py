@@ -7,11 +7,8 @@ class Solution:
         c_s = collections.Counter(s)
         c_t = collections.Counter(t)
         
-        res = 0
-        for k, v in c_t.items():
-            if k not in c_s:
-                res += v
-            elif c_s[k] < v:
-                res += v - c_s[k]
-        
+        res = len(s)
+        for k, v in cs.items():
+            if k in ct:
+                res -= min(v, ct[k])
         return res

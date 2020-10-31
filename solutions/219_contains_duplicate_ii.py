@@ -1,6 +1,6 @@
 class Solution:
     def containsNearbyDuplicate(self, nums: List[int], k: int) -> bool:
-    	"""Set.
+    	"""Hash table.
 
     	Running time: O(n) where n is the length of nums.
     	"""

@@ -4,16 +4,12 @@ class Solution:
 
         Running time: O(nlogn) where n is the number of logs.
         """
-        l_logs, d_logs = [], []
-        
+        l, d = [], []
         for log in logs:
-            parts = log.split(' ', 1)
-            
-            if parts[1][0] in '0123456789':
-                d_logs.append(log)
+            i, w = log.split(' ', 1)
+            if 'a' <= w[0] <= 'z':
+                l.append((w, i))
             else:
-                l_logs.append(parts)
-                
-        l_logs.sort(key=lambda l: (l[1], l[0]))
-        
-        return [' '.join(l) for l in l_logs] + d_logs
+                d.append(log)
+        l.sort()
+        return [i[1] + ' ' + i[0] for i in l] + d

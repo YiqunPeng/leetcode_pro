@@ -4,16 +4,7 @@ class Solution:
 
         Running time: O(n) where n is the length of digits.
         """
-        digits[-1] += 1
-        
-        p = len(digits) - 1
-        while p and digits[p] > 9:
-            digits[p] -= 10
-            digits[p-1] += 1
-            p -= 1
-        
-        if digits[0] > 9:
-            digits[0] -= 10
-            digits = [1] + digits
-        
-        return digits
+        c = 1
+        for i in range(len(digits) - 1, -1, -1):
+            c, digits[i] = divmod(digits[i] + c, 10)
+        return digits if not c else [1] + digits
