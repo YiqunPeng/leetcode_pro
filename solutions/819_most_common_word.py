@@ -4,26 +4,17 @@ class Solution:
 
         Running time: O(p) where p is the length of paragraph.
         """
-        words = []
-        word = ''
-        for c in paragraph:
-            if c.isalpha():
-                word += c.lower()
-            elif not c.isalpha() and word:
-                words.append(word)
-                word = ''
-        if word:
-            words.append(word)
-        
-        banned = set(banned)
-        
-        fre = collections.defaultdict(int)
-        for word in words:
-            if word not in banned:
-                fre[word] += 1
-        
-        res, f = '', 0
-        for k, v in fre.items():
-            if v > f:
-                res, f = k, v
+        paragraph = re.sub(r'[^a-zA-Z]', ' ', paragraph).lower()
+        words = paragraph.split()
+        banned = set(banned)        
+        d = collections.defaultdict(int)
+        res = None
+        m = 0
+        for w in words:
+            if w in banned: 
+                continue
+            d[w] += 1
+            if m < d[w]:
+                m = d[w]
+                res = w
         return res

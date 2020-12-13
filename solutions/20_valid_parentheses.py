@@ -4,20 +4,15 @@ class Solution:
         
         Running Time: O(n) where n is the length of s.
         """
-        sym = {
-            '(': -1, ')': 1,
-            '[': -2, ']': 2,
-            '{': -3, '}': 3
-        }
-        
+        match = {')': '(', ']': '[', '}': '{'}
+        o = set(['(', '[', '{'])
         st = []
-        for c in s:
-            if sym[c] < 0:
-                st.append(sym[c])
-            else:
-                if not st or st[-1] + sym[c] != 0:
-                    return False
+        for i in s:
+            if i in o:
+                st.append(i)
+            elif st and st[-1] == match[i]:
                 st.pop()
-                
+            else:
+                return False
         return not st
         

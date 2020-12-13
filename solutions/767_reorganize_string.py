@@ -1,24 +1,25 @@
 class Solution:
     def reorganizeString(self, S: str) -> str:
-        """Sort.
+        """Heap.
 
         Running time:O(nlogn) where n is the length of S.
         """
-        if not S:
-            return ''
-        
         c = collections.Counter(S)
-        l = sorted(list(c.items()), key=lambda x:x[1], reverse=True)
-        
-        p = 0
-        rs = [''] * len(S)
-        for i in range(len(l)):
-            for j in range(l[i][1]):
-                rs[p] = l[i][0]
-                if 0 < p < len(S) - 1 and (rs[p-1] == rs[p] or rs[p] == rs[p+1]):
+        heap = [(-v, k) for k, v in c.items()]
+        heapq.heapify(heap)
+        res = ''
+        while heap:
+            v, k = heapq.heappop(heap)
+            if not res or res[-1] != k:
+                res += k
+                if -v > 1:
+                    heapq.heappush(heap, (v+1, k))
+            else:
+                if not heap:
                     return ''
-                p += 2
-                if p >= len(S):
-                    p = 1
-        
-        return ''.join(rs)
+                vv, kk = heapq.heappop(heap)
+                res += kk
+                if -vv > 1:
+                    heapq.heappush(heap, (vv+1, kk))
+                heapq.heappush(heap, (v, k))
+        return res  

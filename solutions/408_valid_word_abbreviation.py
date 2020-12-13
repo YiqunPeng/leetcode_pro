@@ -2,22 +2,20 @@ class Solution:
     def validWordAbbreviation(self, word: str, abbr: str) -> bool:
         """String.
 
-        Running time: O(n) where n is length of abbr.
+        Running time: O(n) where n == len(abbr).
         """
-        v = 0
-        p = 0
-        
-        for c in abbr:
-            if c in string.digits:
-                if int(c) == 0 and v == 0:
-                    return False
-                v = v * 10 + int(c)
-            else:
+        v = p = 0
+        for i in abbr:
+            if i.isalpha():
                 p += v
                 v = 0
-                if p < len(word) and word[p] == c:
-                    p += 1
-                else:
+                if p >= len(word) or word[p] != i:
                     return False
-                
+                else:
+                    p += 1
+            else:
+                if not v and int(i) == 0:
+                    return False
+                else:
+                    v = v * 10 + int(i)
         return p + v == len(word)

@@ -4,39 +4,22 @@ class Solution:
 
         Running time: O(n + m) where n is the length of queries and m is the length of wordlist.
         """
-        def get_wild(word):
-            wild = ''
-            for c in word:
-                if c in ['a', 'e', 'i', 'o', 'u', 'A', 'E', 'I', 'O', 'U']:
-                    wild += '*'
-                else:
-                    wild += c 
-            return wild.lower()
-        
-        worddict = set()
-        wordcapdict = {}
-        wordvoweldict = {}
-        
-        for word in wordlist:
-            worddict.add(word)
-            
-            if word.lower() not in wordcapdict:
-                wordcapdict[word.lower()] = word
-
-            wild = get_wild(word)
-            if wild not in wordvoweldict:
-                wordvoweldict[wild] = word
-        
-        for i in range(len(queries)):
-            wild = get_wild(queries[i])
-                        
-            if queries[i] in worddict:
-                continue
-            elif queries[i].lower() in wordcapdict:
-                queries[i] = wordcapdict[queries[i].lower()]
-            elif wild in wordvoweldict:
-                queries[i] = wordvoweldict[wild]
+        words = set(wordlist)
+        lower = {}
+        devowel = {}
+        res = []
+        for w in wordlist[::-1]:
+            l = w.lower()
+            lower[l] = w
+            devowel[re.sub('[aeiou]', '#', l)] = w
+        for q in queries:
+            lq = q.lower()
+            if q in words:
+                res.append(q)
+            elif lq in lower:
+                res.append(lower[lq])
+            elif re.sub('[aeiou]', '#', lq) in devowel:
+                res.append(devowel[re.sub('[aeiou]', '#', lq)])
             else:
-                queries[i] = ''
-        
-        return queries
+                res.append('')
+        return res

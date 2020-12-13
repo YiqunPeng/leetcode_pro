@@ -6,18 +6,16 @@ class Solution:
         """
         a = 0
         l = 0
-        
-        for c in s:
-            if c == 'A':
+        for i in s:
+            if i == 'A':
                 a += 1
                 if a > 1:
                     return False
                 l = 0
-            elif c == 'L':
+            elif i == 'L':
                 l += 1
                 if l > 2:
                     return False
             else:
                 l = 0
-                
         return True

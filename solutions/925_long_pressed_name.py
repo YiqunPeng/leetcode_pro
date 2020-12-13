@@ -4,21 +4,24 @@ class Solution:
 
         Running time: O(n) where n is the length of typed.
         """
-        def get_groups(s):
-            groups = []
-            c = 1
-            for i in range(1, len(s)):
-                if s[i] == s[i - 1]:
-                    c += 1
-                else:
-                    groups.append((s[i - 1], c))
-                    c = 1
-            return groups
-        
-        n_groups = get_groups(name)
-        t_groups = get_groups(typed)
-        
-        if len(n_groups) != len(t_groups):
+        n = self._run_length(name)
+        t = self._run_length(typed)
+        if len(n) != len(t):
             return False
-            
-        return all(n_groups[i][0] == t_groups[i][0] and n_groups[i][1] <= t_groups[i][1] for i in range(len(t_groups)))
+        for i in range(len(n)):
+            if n[i][0] != t[i][0] or n[i][1] > t[i][1]:
+                return False
+        return True
+    
+    def _run_length(self, arr):
+        res = []
+        c = 1
+        for i in range(1, len(arr)):
+            if arr[i] != arr[i-1]:
+                res.append((arr[i-1], c))
+                c = 1
+            else:
+                c += 1
+        res.append((arr[-1], c))
+        return res
+

@@ -4,24 +4,24 @@ class Solution:
 
         Running Time: O(n) where n is the length of s.
         """
-        rows = ['' for row in range(numRows)]
-        
+        if numRows == 1:
+            return s
+        arr = ['' for i in range(numRows)]
         r = 0
-        down = True
-        
-        for c in s:
-            rows[r] += c
-            
-            if down:
-                r += 1
-                if r == numRows:
-                    r = max(r - 2, 0)
-                    down = False
+        d = True
+        for i in s:
+            arr[r] += i
+            if d:
+                if r == numRows - 1:
+                    r -= 1
+                    d = False
+                else:
+                    r += 1
             else:
-                r -= 1
-                if r == -1:
-                    r = min(r + 2, numRows - 1)
-                    down = True
-        
-        return ''.join(rows)
+                if r == 0:
+                    r += 1
+                    d = True
+                else:
+                    r -= 1
+        return ''.join(arr)
  

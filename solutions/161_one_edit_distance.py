@@ -4,18 +4,18 @@ class Solution:
 
         Running time: O(n) where n is the length of s.
         """
-        ps, pt = 0, 0
-        while ps < len(s) and pt < len(t) and s[ps] == t[pt]:
-            ps += 1
-            pt += 1
-            
-        s = s[ps:]
-        t = t[pt:]
-        
-        if not s and not t:
-            return False
-        
-        if s[1:] == t or s == t[1:] or s[1:] == t[1:]:
-            return True
-        
-        return False
+        if len(s) > len(t):
+            s, t = t, s
+        for i in range(len(s)):
+            if s[i] != t[i]:
+                v = i
+                break
+        else:
+            if len(s) == len(t):
+                return False
+            else:
+                return len(t) - len(s) == 1
+        if len(s) == len(t):
+            return s[v+1:] == t[v+1:]
+        else:
+            return s[v:] == t[v+1:]

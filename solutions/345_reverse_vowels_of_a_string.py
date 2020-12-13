@@ -4,14 +4,16 @@ class Solution:
 
         Running time: O(n) where n is the length of s.
         """
-        vowels = []
-        for c in s:
-            if c in ('a', 'A', 'e', 'E', 'i', 'I', 'o', 'O', 'u', 'U'):
-                vowels.append(c)
-                
-        ls = list(s)
-        for i in range(len(ls)):
-            if ls[i] in ('a', 'A', 'e', 'E', 'i', 'I', 'o', 'O', 'u', 'U'):
-                ls[i] = vowels.pop()
-            
-        return ''.join(ls)
+        v = set(['A', 'E', 'I', 'O', 'U', 'a', 'e', 'i', 'o', 'u'])
+        sl = list(s)
+        l, r = 0, len(s) - 1
+        while l < r:
+            while l < r and sl[l] not in v:
+                l += 1
+            while l < r and sl[r] not in v:
+                r -= 1
+            if l < r:
+                sl[l], sl[r] = sl[r], sl[l]
+                l += 1
+                r -= 1
+        return ''.join(sl)

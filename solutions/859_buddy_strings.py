@@ -4,22 +4,16 @@ class Solution:
 
         Running time: O(n) where n is the length of A.
         """
-        if len(A) != len(B) or len(A) < 2:
+        if len(A) != len(B):
             return False
-        
-        diff = []
-        c = collections.defaultdict(int)
+        di = []
         for i in range(len(A)):
-            c[A[i]] += 1
             if A[i] != B[i]:
-                if len(diff) == 2:
+                di.append(i)
+                if len(di) > 2:
                     return False
-                else:
-                    diff.append(i)
-        
-        if len(diff) == 2:
-            return A[diff[0]] == B[diff[1]] and A[diff[1]] == B[diff[0]]
-        elif len(diff) == 0:
-            return min(c.values()) >= 2
-        else:
-            return False
+        if len(di) == 2:
+            return A[di[0]] == B[di[1]] and A[di[1]] == B[di[0]]
+        elif len(di) == 0 and A:
+            return max(collections.Counter(A).values()) > 1
+        return False
