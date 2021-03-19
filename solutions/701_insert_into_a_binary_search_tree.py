@@ -11,28 +11,19 @@ class Solution:
 
         Running time: O(h) where h is the height of the tree.
         """
-        def insert(node):
-            if not node.left and not node.right:
-                if node.val > val:
-                    node.left = TreeNode(val)
-                else:
-                    node.right = TreeNode(val)
-                return
-            
-            if node.val > val:
-                if node.left:
-                    insert(node.left)
-                else:
-                    node.left = TreeNode(val)
-            else:
-                if node.right:
-                    insert(node.right)
-                else:
-                    node.right = TreeNode(val)
-            
-        
         if not root:
             return TreeNode(val)
-        
-        insert(root)
+        self._insert(root, val)
         return root
+    
+    def _insert(self, root, val):
+        if val < root.val:
+            if not root.left:
+                root.left = TreeNode(val)
+            else:
+                self._insert(root.left, val)
+        else:
+            if not root.right:
+                root.right = TreeNode(val)
+            else:
+                self._insert(root.right, val)

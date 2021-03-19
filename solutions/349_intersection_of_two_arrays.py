@@ -4,4 +4,4 @@ class Solution:
 
     	Running time: O(n) where n is the total number of items in nums1 and nums2.
     	"""
-        return list(set(nums1) & set(nums2))
+        return set(nums1) & set(nums2)

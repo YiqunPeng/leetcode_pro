@@ -11,27 +11,12 @@ class Solution:
 
 		Running Time: O(h) where h is the height of the BST.
         """
-        succ = None
-        
-        while root:
-            if p.val < root.val:
-                succ = root
-                root = root.left
+        prev = None
+        curr = root
+        while curr:
+            if curr.val > p.val:
+                prev = curr
+                curr = curr.left
             else:
-                root = root.right
-                
-        return succ
-
-    def inorderSuccessor_2(self, root: 'TreeNode', p: 'TreeNode') -> 'TreeNode':
-        """Recursive
-
-		Running Time: O(h) where h is the height of the BST.
-		"""
-        if not root:
-            return None
-        
-        if p.val < root.val:
-            left = self.inorderSuccessor(root.left, p)
-            return left if left else root
-        else:
-            return self.inorderSuccessor(root.right, p)
+                curr = curr.right
+        return prev

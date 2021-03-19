@@ -4,20 +4,21 @@ class Logger:
         """
         Initialize your data structure here.
         """
-        self.q = collections.deque()
-        self.msg = set()
+        self.d = {}
         
 
     def shouldPrintMessage(self, timestamp: int, message: str) -> bool:
-        """Queue.
-        
-        Running time: O(n) where n is the length of the queue.
         """
-        while self.q and timestamp - self.q[0][0] >= 10:
-            t, m = self.q.popleft()
-            self.msg.discard(m)
-        res = message not in self.msg
-        if res:
-            self.q.append([timestamp, message])
-            self.msg.add(message)
-        return res
+        Returns true if the message should be printed in the given timestamp, otherwise returns false.
+        If this method returns false, the message will not be printed.
+        The timestamp is in seconds granularity.
+        """
+        if message not in self.d:
+            self.d[message] = timestamp
+            return True
+        else:
+            if timestamp - self.d[message] < 10:
+                return False
+            else:
+                self.d[message] = timestamp
+                return True

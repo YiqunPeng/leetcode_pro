@@ -5,9 +5,4 @@ class Solution:
 		Running time: O(n) where n is the total length of J plus S.
     	"""
         j = set(J)
-        
-        ret = 0
-        for s in S:
-            if s in j:
-                ret += 1      
-        return ret
+        return len([i for i in S if i in j])

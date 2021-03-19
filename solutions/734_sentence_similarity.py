@@ -4,16 +4,13 @@ class Solution:
 
         Running time: O(w + p) where w is the length of words1 and p is the length of pairs.
         """
-        if len(words1) != len(words2):
+        if len(sentence1) != len(sentence2):
             return False
-        
-        d = collections.defaultdict(set)
-        for w1, w2 in pairs:
-            d[w1].add(w2)
-            d[w2].add(w1)
-            
-        for i in range(len(words1)):
-            if not (words1[i] == words2[i] or words1[i] in d[words2[i]]):
+        s = set()
+        for a, b in similarPairs:
+            s.add((a, b))
+            s.add((b, a))
+        for i in range(len(sentence1)):
+            if sentence1[i] != sentence2[i] and (sentence1[i], sentence2[i]) not in s:
                 return False
-            
         return True

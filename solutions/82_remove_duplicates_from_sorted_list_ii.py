@@ -10,16 +10,14 @@ class Solution:
 
         Running Time: O(n) where n is the length of linked list.
         """
-        p = nh = ListNode(None)
-        p.next = nh.next = head
-        
-        while p.next:
-            if p.next.next and p.next.next.val == p.next.val:
-                while p.next.next and p.next.next.val == p.next.val:
-                    p.next = p.next.next
-                p.next = p.next.next
+        dummy = ListNode(0, head)
+        d = dummy
+        while dummy.next and dummy.next.next:
+            if dummy.next.val == dummy.next.next.val:
+                v = dummy.next.val
+                while dummy.next and dummy.next.val == v:
+                    dummy.next = dummy.next.next
             else:
-                p = p.next
-                    
-        return nh.next
+                dummy = dummy.next
+        return d.next
   

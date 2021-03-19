@@ -4,9 +4,8 @@ class Solution:
 
     	Running time: O(n) where n is the length of t.
     	"""
-        sc = collections.Counter(s)
-        tc = collections.Counter(t)
-        
-        for k in tc.keys():
-            if k not in sc or sc[k] != tc[k]:
+        cs = Counter(s)
+        ct = Counter(t)
+        for k in ct:
+            if k not in cs or cs[k] != ct[k]:
                 return k

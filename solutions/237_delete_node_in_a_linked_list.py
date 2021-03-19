@@ -10,8 +10,5 @@ class Solution:
 
         Running Time: O(1)
         """
-        if node.next:
-            node.val = node.next.val
-            node.next = node.next.next
-        else:
-            node = None
+        node.val = node.next.val
+        node.next = node.next.next

@@ -10,29 +10,24 @@ class Solution:
 
         Running Time: O(n) where n is the length of linked list.
         """
-        if not head: return None
-        
-        d = p = nh = ListNode(None)
-        d.next = p.next = head
-        
+        if not head:
+            return None
+        n = head
         l = 0
-        while p.next:
+        while n:
             l += 1
-            p = p.next
+            n = n.next
         k = k % l
-        
-        p = d
-        while k:
-            p = p.next
-            k -= 1
-            
-        while p.next:
-            d = d.next
-            p = p.next
-            
-        nh = d.next if d.next else head
-        p.next = head if nh is not head else None
-        d.next = None
-        
+        if k == 0:
+            return head
+        ot, nt = head, head
+        for i in range(k):
+            ot = ot.next
+        while ot.next:
+            ot = ot.next
+            nt = nt.next
+        nh = nt.next
+        nt.next = None
+        ot.next = head
         return nh
         

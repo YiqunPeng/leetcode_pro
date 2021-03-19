@@ -10,17 +10,11 @@ class Solution(object):
         
         Running Time: O(n) where n is the length of linked list.
         """
-        if not head:
-            return False
-        
-        s = f = head
-        
-        while f.next and f.next.next:        
+        s, f = head, head
+        while f and f.next:
             s = s.next
             f = f.next.next
-            
-            if s is f:
+            if s == f:
                 return True
-            
         return False
         

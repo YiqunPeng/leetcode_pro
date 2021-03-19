@@ -13,21 +13,18 @@ class Solution:
         """
         if not root:
             return []
-        
-        ret = []
+        res = []
         lvl = [root]
-        
         while lvl:
             nlvl = []
-            vals = []
+            values = []
             for node in lvl:
-                vals.append(node.val)
+                values.append(node.val)
                 if node.left:
                     nlvl.append(node.left)
                 if node.right:
                     nlvl.append(node.right)
-            ret.append(vals)
             lvl = nlvl
-            
-        return ret[::-1]
+            res.append(values)
+        return res[::-1]
         

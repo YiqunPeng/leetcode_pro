@@ -4,27 +4,34 @@ class MagicDictionary:
         """
         Initialize your data structure here.
         """
-        self.words = set()
-        
+        self.d = {}
 
-    def buildDict(self, dict: List[str]) -> None:
-        """
-        Build a dictionary through a list of words
+    def buildDict(self, dictionary: List[str]) -> None:
+        """Hash table.
 
-        Running time: O(n) where n is the total characters in dict.
+        Running time: O(n) where n == len(dictionary).
         """
-        for word in dict:
+        for word in dictionary:
+            n = len(word)
+            if n not in self.d:
+                self.d[n] = set()
+            self.d[n].add(word)
+
+    def search(self, searchWord: str) -> bool:
+        """Hash table.
+
+        Running time: O(n * k) where n == len(dictionary) and k == len(searchWord).
+        """
+        n = len(searchWord)
+        if n not in self.d:
+            return False
+        for word in self.d[n]:
+            diff = 1
             for i in range(len(word)):
-                for c in string.ascii_lowercase:
-                    if c != word[i]:
-                        w = word[:i] + c + word[i+1:]
-                        self.words.add(w)
-        
-
-    def search(self, word: str) -> bool:
-        """
-        Returns if there is any word in the trie that equals to the given word after modifying exactly one character
-        
-        Running time: O(1)
-        """
-        return word in self.words
+                if word[i] != searchWord[i]:
+                    diff -= 1
+                    if diff == -1:
+                        break
+            if diff == 0:
+                return True
+        return False

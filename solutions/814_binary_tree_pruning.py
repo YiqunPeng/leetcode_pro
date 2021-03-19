@@ -1,34 +1,13 @@
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
 class Solution:
     def pruneTree(self, root: TreeNode) -> TreeNode:
         """Postorder Traveral.
 
         Running time: O(n) where n is the number of nodes in the tree.
         """
-        def prune(node):
-            if not node:
-                return True
-            
-            l = prune(node.left)
-            if l:
-                node.left = None
-            
-            r = prune(node.right)
-            if r:
-                node.right = None
-
-            if l and r and node.val == 0:
-                return True
-            return False
-            
-        if prune(root):
+        if not root:
             return None
-        return root
-        
-        
+        root.left = self.pruneTree(root.left)
+        root.right = self.pruneTree(root.right)
+        if root.left or root.right or root.val == 1:
+            return root
+        return None

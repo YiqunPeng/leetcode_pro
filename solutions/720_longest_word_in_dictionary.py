@@ -4,16 +4,14 @@ class Solution:
 
         Running time: O(nlogn) where n is the length of words.
         """
-        words.sort(key=lambda x:len(x))
-        
-        res = set([])
-        
+        d = set([""])
+        words.sort(key=len)
         for word in words:
-            if len(word) == 1 or word[:-1] in res:
-                res.add(word)
-        
-        if res:
-            return sorted(list(res), key=lambda x:(-len(x), x))[0]
-        else:
-            return ''
+            if word[:-1] in d:
+                d.add(word)
+        res = ""
+        for i in d:
+            if len(i) > len(res) or (len(i) == len(res) and i < res):
+                res = i
+        return res
         

@@ -10,25 +10,16 @@ class Solution(object):
         :type head: ListNode
         :rtype: ListNode
         """
-        if not head:
-            return None
-        
-        s = f = h = head
-        has_cycle = False
-        
-        while f.next and f.next.next:
-            s = s.next
+        s, f = head, head
+        while f and f.next:
             f = f.next.next
-            
-            if s is f:
-                has_cycle = True
-                break
-                
-        if not has_cycle:
-            return None
-        
-        while s is not h:
             s = s.next
+            if s == f:
+                break
+        if not f or not f.next:
+            return None
+        h = head
+        while h != s:
             h = h.next
-            
-        return s
+            s = s.next
+        return h

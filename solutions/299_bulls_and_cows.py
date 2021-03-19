@@ -5,18 +5,13 @@ class Solution:
         Running time: O(n) where n is the length of secret.
         """
         bulls, cows = 0, 0
-        counter = Counter(secret)
-        
+        sc, gc = {}, {}
         for i in range(len(secret)):
             if secret[i] == guess[i]:
                 bulls += 1
-                counter[guess[i]] -= 1
-        
-        for i in range(len(guess)):
-            if secret[i] == guess[i]:
-                continue
-            if guess[i] in counter and counter[guess[i]] > 0:
-                counter[guess[i]] -= 1
-                cows += 1
-        
-        return str(bulls) + 'A' + str(cows) + 'B'
+            sc[secret[i]] = sc.get(secret[i], 0) + 1
+            gc[guess[i]] = gc.get(guess[i], 0) + 1
+        for k, v in sc.items():
+            if k in gc:
+                cows += min(v, gc[k])
+        return str(bulls) + 'A' + str(cows - bulls) + 'B'

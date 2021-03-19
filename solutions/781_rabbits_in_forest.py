@@ -4,18 +4,12 @@ class Solution:
 
         Running time: O(n) where n is the length of answers.
         """
-        c = collections.Counter(answers)
-        
-        ret = 0
-        
-        for k, v in c.items():
-            if k == 0:
-                ret += v
-                continue
-                
-            if v % (k + 1) == 0:
-                ret += v
+        d = {}
+        res = 0
+        for a in answers:
+            if a not in d or d[a] == 0:
+                res += a + 1
+                d[a] = a
             else:
-                ret += (v // (k + 1) + 1) * (k + 1)
-        
-        return ret
+                d[a] -= 1
+        return res

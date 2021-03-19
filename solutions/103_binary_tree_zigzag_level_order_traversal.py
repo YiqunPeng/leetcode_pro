@@ -13,26 +13,23 @@ class Solution:
         """
         if not root:
             return []
-        
-        r = []
-        
-        l = [root]
-        while l:
-            v = [n.val for n in l]
-            if len(r) % 2 == 0:
-                r.append(v)
-            else:
-                r.append(v[::-1])
-            
-            nl = []
-            
-            for node in l:
+        lvl = [root]
+        res = []
+        d = 1
+        while lvl:
+            values = []
+            nlvl = []
+            for node in lvl:
+                values.append(node.val)
                 if node.left:
-                    nl.append(node.left)
+                    nlvl.append(node.left)
                 if node.right:
-                    nl.append(node.right)
-            
-            l = nl
-        
-        return r
+                    nlvl.append(node.right)
+            if d % 2 == 1:
+                res.append(values)
+            else:
+                res.append(values[::-1])
+            lvl = nlvl
+            d += 1
+        return res
             

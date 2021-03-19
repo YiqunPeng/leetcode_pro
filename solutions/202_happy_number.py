@@ -1,19 +1,16 @@
 class Solution:
     def isHappy(self, n: int) -> bool:
-        def get_sum(n):
-            r = 0
-            while n != 0:
-                m = n % 10
-                r += m * m
+        """Hash set.
+        """
+        seen = set()
+        while n not in seen:
+            seen.add(n)
+            nn = 0
+            while n:
+                r = n % 10
+                nn += r * r
                 n //= 10
-            return r
-        
-        s = set()
-        while n not in s:
-            s.add(n)
-            n = get_sum(n)
-            
+            n = nn
             if n == 1:
                 return True
-            elif n in s:
-                return False
+        return False

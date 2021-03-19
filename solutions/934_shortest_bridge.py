@@ -1,44 +1,41 @@
 class Solution:
     def shortestBridge(self, A: List[List[int]]) -> int:
-        """DFS/BFS.
-
-        Running Time: O(n) where n is the number of grids in A.
-        """
-        from collections import deque
-        
-        def find_start():
-            for i in range(len(A)):
-                for j in range(len(A[0])):
-                    if A[i][j] == 1:
-                        return i, j
-                    
-        def populate(i, j, outliner):
-            A[i][j] = 2
-            
-            for ni, nj in [(i+1, j), (i-1, j), (i, j-1), (i, j+1)]:
-                if 0 <= ni < len(A) and 0 <= nj < len(A[0]):
-                    if A[ni][nj] == 1:
-                        populate(ni, nj, outliner)
-                    if A[ni][nj] == 0:
-                        outliner.add((i, j))
-                    
-        si, sj = find_start()
-        outliner = set()
-        populate(si, sj, outliner)
-        
-        v = set()
-        q = deque()
-        for i, j in outliner:
-            q.append((i, j, 0))
-        
+        boader = []
+        self._mark_island(A, boader)
+        return self._bfs(A, boader)
+    
+    def _mark_island(self, A, boader):
+        for i in range(len(A)):
+            for j in range(len(A[0])):
+                if A[i][j] == 1:
+                    A[i][j] = -1
+                    return self._dfs(A, i, j, boader)
+    
+    def _dfs(self, A, i, j, boader):
+        if self._on_border(A, i, j):
+            boader.append((i, j))
+        for ni, nj in [(i+1, j), (i-1, j), (i, j+1), (i, j-1)]:
+            if 0 <= ni < len(A) and 0 <= nj < len(A[0]) and A[ni][nj] == 1:
+                A[ni][nj] = -1
+                self._dfs(A, ni, nj, boader)
+    
+    def _bfs(self, A, boader):
+        q = deque(boader)
+        seen = set()
+        res = 0
         while q:
-            i, j, n = q.popleft()
-            
-            for ni, nj in [(i+1, j), (i-1, j), (i, j+1), (i, j-1)]:
-                if 0 <= ni < len(A) and 0 <= nj < len(A[0]) and A[ni][nj] != 2:
-                    if A[ni][nj] == 1:
-                        return n
-                    if (ni, nj) not in v:
-                        v.add((ni, nj))
-                        q.append((ni, nj, n + 1))
-   
+            for i in range(len(q)):
+                i, j = q.popleft()
+                if A[i][j] == 1:
+                    return res - 1
+                for ni, nj in [(i+1, j), (i-1, j), (i, j+1), (i, j-1)]:
+                    if 0 <= ni < len(A) and 0 <= nj < len(A[0]) and A[ni][nj] != -1 and (ni, nj) not in seen:
+                        seen.add((ni, nj))
+                        q.append((ni, nj))
+            res += 1
+    
+    def _on_border(self, A, i, j):
+        for ni, nj in [(i+1, j), (i-1, j), (i, j+1), (i, j-1)]:
+            if 0 <= ni < len(A) and 0 <= nj < len(A[0]) and A[ni][nj] == 0:
+                return True
+        return False

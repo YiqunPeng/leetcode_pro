@@ -1,30 +1,28 @@
 """
-# Employee info
+# Definition for Employee.
 class Employee:
-    def __init__(self, id, importance, subordinates):
-        # It's the unique id of each node.
-        # unique id of this employee
+    def __init__(self, id: int, importance: int, subordinates: List[int]):
         self.id = id
-        # the importance value of this employee
         self.importance = importance
-        # the id of direct subordinates
         self.subordinates = subordinates
 """
+
 class Solution:
-    def getImportance(self, employees, id):
+    def getImportance(self, employees: List['Employee'], id: int) -> int:
         """BFS.
-        
-        Running time: O(n) where n is the number of employees.
+
+        Running time: O(n) where n == len(employees).
         """
-        d = {e.id: e for e in employees}
-        
-        r = 0
-        q = collections.deque([d[id]])
+        res = 0
+        s = {}
+        v = {}
+        for e in employees:
+            s[e.id] = e.subordinates
+            v[e.id] = e.importance
+        q = collections.deque([id])
         while q:
-            e = q.popleft()
-            r += e.importance
-            
-            for sub in e.subordinates:
-                q.append(d[sub])
-        
-        return r
+            i = q.popleft()
+            res += v[i]
+            for sub in s[i]:
+                q.append(sub)
+        return res

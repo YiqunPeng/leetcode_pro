@@ -1,20 +1,17 @@
 class Solution:
     def findLeaves(self, root: TreeNode) -> List[List[int]]:
-        """DFS.
-
-        Running time: O(n) where n is the number of nodes in the tree.
-        """
-        def dfs(node):
-            if not node:
-                return 0
-    
-            d = max(dfs(node.left), dfs(node.right)) + 1
-            if d > len(res):
-                res.append([node.val])
-            else:
-                res[d-1].append(node.val)
-            return d
-        
         res = []
-        dfs(root)
+        self._dfs(root, res)
         return res
+    
+    def _dfs(self, node, res):
+        if not node:
+            return -1
+        l = self._dfs(node.left, res)
+        r = self._dfs(node.right, res)
+        d = max(l, r) + 1
+        if len(res) < d + 1:
+            res.append([node.val])
+        else:
+            res[d].append(node.val)
+        return d

@@ -1,46 +1,27 @@
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
 class Solution:
     def deleteNode(self, root: TreeNode, key: int) -> TreeNode:
-        """BST
-
-        Running time: O(h) where h is the height of the BST.
-        """
-        def search():
-            node, pre = root, None
-            while node:
-                if node.val == key:
-                    return node, pre
-                pre = node
-                if node.val < key:
-                    node = node.right
-                else:
-                    node = node.left
-            return None, None
-        
-        def delete(node):
-            if not node.right:
-                return node.left
-            r = node.right
-            while r.left:
-                r = r.left
-            r.left = node.left
-            return node.right
-        
-        node, pre = search()
-        
-        if not node:
-            return root
-        
-        if node == root:
-            return delete(root)
-        if pre.left == node:
-            pre.left = delete(node)
+        if not root:
+            return None
+        if root.val == key:
+            return self._delete_root(root)
+        elif root.val > key:
+            root.left = self.deleteNode(root.left, key)
         else:
-            pre.right = delete(node)
-        return root 
+            root.right = self.deleteNode(root.right, key)
+        return root
+    
+    def _find_min(self, root):
+        while root and root.left:
+            root = root.left
+        return root
+    
+    def _delete_root(self, root):
+        if not root:
+            return None
+        if not root.left:
+            return root.right
+        if not root.right:
+            return root.left
+        node = self._find_min(root.right)
+        node.left = root.left
+        return root.right

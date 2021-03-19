@@ -4,23 +4,15 @@ class Solution:
 
         Running time: O(n) where n is the length of words.
         """
-        def get_dict(word):
-            d = collections.defaultdict(int)
-            for c in word:
-                if c.lower() in string.ascii_lowercase:
-                    d[c.lower()] += 1
-            return d
-        
-        plate = get_dict(licensePlate)
-        res = None
-        
+        words.sort(key=len)
+        lc = {}
+        for i in licensePlate:
+            if i.lower().isalpha():
+                lc[i.lower()] = lc.get(i.lower(), 0) + 1
         for word in words:
-            d = get_dict(word)
-            for k, v in plate.items():
-                if k not in d or d[k] < v:
+            wc = Counter(word)
+            for k, v in lc.items():
+                if k not in wc or wc[k] < v:
                     break
             else:
-                if not res or len(res) > len(word):
-                    res = word
-        
-        return res
+                return word

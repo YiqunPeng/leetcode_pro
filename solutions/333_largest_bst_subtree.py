@@ -1,23 +1,14 @@
 class Solution:
     def largestBSTSubtree(self, root: TreeNode) -> int:
-        """Tree postorder traversal.
-
-        Running time: O(n) where n is the number of nodes in the tree.
-        """
-        def postorder(node):
-            if not node:
-                return True, 0, None, None
-            if not node.left and not node.right:
-                return True, 1, node.val, node.val
-            
-            lbst, ln, lmin, lmax = postorder(node.left)
-            rbst, rn, rmin, rmax = postorder(node.right)
-            
-            if (not lbst or not rbst) or (lmax and node.val <= lmax) or (rmin and node.val >= rmin):
-                return False, max(ln, rn), None, None
-            else:
-                tmin = lmin if lmin else node.val
-                tmax = rmax if rmax else node.val
-                return True, ln + rn + 1, tmin, tmax
-            
-        return postorder(root)[1]
+        return self._post_order(root)[0]
+        
+    def _post_order(self, root):
+        if not root:
+            return 0, True, None, None
+        if not root.left and not root.right:
+            return 1, True, root.val, root.val
+        ln, lbst, lmin, lmax = self._post_order(root.left)
+        rn, rbst, rmin, rmax = self._post_order(root.right)
+        if not lbst or not rbst or (lmax and root.val <= lmax) or (rmin and root.val >= rmin):
+            return max(ln, rn), False, None, None
+        return ln + rn + 1, True, lmin if lmin else root.val, rmax if rmax else root.val

@@ -1,30 +1,20 @@
 class ValidWordAbbr:
 
     def __init__(self, dictionary: List[str]):
-        """String.
+        self.abbr = collections.defaultdict(set)
+        for word in dictionary:
+            if len(word) <= 2:
+                a = word
+            else:
+                a = word[0] + str(len(word)-2) + word[-1]
+            self.abbr[a].add(word)
 
-        Running time: O(n) where n is the length of dictionary.
-        """
-        self.dictionary = set(dictionary)
-        
-        self.abbrs = collections.defaultdict(int)
-        for word in self.dictionary:
-            abbr = self.get_abbr(word)
-            self.abbrs[abbr] += 1
-                
-    def get_abbr(self, word: str) -> str:
-        """Running time: O(1).
-        """
-        if len(word) <= 2:
-            return word
-        else:
-            return word[0] + str(len(word) - 2) + word[-1]
-        
     def isUnique(self, word: str) -> bool:
-        """Running time: O(1).
-        """
-        abbr = self.get_abbr(word)  
-        if word in self.dictionary:
-            return self.abbrs[abbr] == 1
+        if len(word) <= 2:
+            a = word
         else:
-            return self.abbrs[abbr] == 0
+            a = word[0] + str(len(word)-2) + word[-1]
+        if a not in self.abbr or self.abbr[a] == set([word]):
+            return True
+        else:
+            return False

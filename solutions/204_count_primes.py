@@ -4,15 +4,9 @@ class Solution:
 
         Running time: O(n log log n).
         """
-        nums = [1] * n
-        
-        i = 2
-        while i * i < n:
-            j = i * i
-            if nums[j] != 0:
-                while j < n:
-                    nums[j] = 0
-                    j += i
-            i += 1
-        
-        return sum(nums[2:])
+        p = [1] * n
+        for i in range(2, int(n ** 0.5) + 1):
+            if p[i]:
+                for j in range(i * i, n, i):
+                    p[j] = 0
+        return sum(p[2:])

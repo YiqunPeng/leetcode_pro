@@ -11,22 +11,9 @@ class Solution:
 
         Running time: O(h) where h is the height of the tree.
         """
-        def search(node):
-            if node.val == val:
-                return node
-            elif node.val > val:
-                if node.left:
-                    return search(node.left)
-                else:
-                    return
-            else:
-                if node.right:
-                    return search(node.right)
-                else:
-                    return
-                
-        
-        if not root:
-            return
-        
-        return search(root)
+        if not root or root.val == val:
+            return root
+        elif root.val > val:
+            return self.searchBST(root.left, val)
+        else:
+            return self.searchBST(root.right, val)

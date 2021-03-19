@@ -1,44 +1,17 @@
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
 class Solution:
     def isCousins(self, root: TreeNode, x: int, y: int) -> bool:
-        """BFS.
-
-        Running time: O(n) where is the number of nodes in the tree.
-        """
-        from collections import deque
-        
-        if root.val == x or root.val == y:
-            return False
-        
-        px, dx = None, 0
-        py, dy = None, 0
-        
+        px, dx, fx = None, None, False
+        py, dy, fy = None, None, False
         q = deque([(root, 0)])
-        while not px or not py:
-            node, depth = q.popleft()
-            
+        while q:
+            node, d = q.popleft()
+            if not fx and node.left and node.left.val == x or node.right and node.right.val == x:
+                px, dx, fx = node, d + 1, True
+            if not fy and node.left and node.left.val == y or node.right and node.right.val == y:
+                py, dy, fy = node, d + 1, True
+            if fx and fy:
+                return dx == dy and px != py
             if node.left:
-                if node.left.val == x:
-                    px, dx = node, depth + 1
-                elif node.left.val == y:
-                    py, dy = node, depth + 1
-                q.append([node.left, depth + 1])
-            
+                q.append((node.left, d + 1))
             if node.right:
-                if node.right.val == x:
-                    px, dx = node, depth + 1
-                elif node.right.val == y:
-                    py, dy = node, depth + 1
-                q.append([node.right, depth + 1])
-        
-        if dx == dy and px != py:
-            return True
-        else:
-            return False
-   
+                q.append((node.right, d + 1))

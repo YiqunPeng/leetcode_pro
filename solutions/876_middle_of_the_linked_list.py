@@ -10,11 +10,9 @@ class Solution:
 
         Running Time: O(length of linked list)
         """
-        f, s = head, head
-        
-        while f.next and f.next.next:
-            s = s.next
-            f = f.next.next
-        
-        return s.next if f.next else s
+        slow, fast = head, head
+        while fast and fast.next:
+            fast = fast.next.next
+            slow = slow.next
+        return slow
     
