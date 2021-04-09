@@ -5,15 +5,12 @@ class Solution:
         Running time: O(n) where n is the number of rooms.
         """
         v = set([0])
-        
-        q = collections.deque([0])
+        q = deque([0])
         while q:
-            r = q.popleft()
-            
-            for key in rooms[r]:
-                if key not in v:
-                    q.append(key)
-                    v.add(key)
-        
+            room = q.popleft()
+            for nxt in rooms[room]:
+                if nxt not in v:
+                    v.add(nxt)
+                    q.append(nxt)
         return len(v) == len(rooms)
             
