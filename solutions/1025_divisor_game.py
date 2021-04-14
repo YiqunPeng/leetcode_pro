@@ -1,7 +1,7 @@
 class Solution:
-    def divisorGame(self, N: int) -> bool:
+    def divisorGame(self, n: int) -> bool:
     	"""Math.
 
     	Running time: O(1).
     	"""
-        return N % 2 == 0
+        return n % 2 == 0

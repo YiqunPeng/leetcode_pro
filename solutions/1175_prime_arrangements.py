@@ -1,29 +1,22 @@
 class Solution:
     def numPrimeArrangements(self, n: int) -> int:
-        """Math.
-
-        Running time: O(n).
-        """
-        def is_prime(num):
-            if num == 1:
-                return 0
-            if num % 2 == 0 and num != 2:
-                return 0
-            for i in range(3, int(num ** 0.5) + 1, 2):
-                if num % i == 0:
-                    return 0
-            return 1
-        
-        def factorial(num):
-            if num == 0 or num == 1:
-                return 1
-            return num * factorial(num - 1)
-        
         mod = 10 ** 9 + 7
-        
-        primes = 0
-        for i in range(1, n + 1):
-            primes += is_prime(i)
-                    
-        return ((factorial(primes) % mod) * (factorial(n - primes) % mod)) % mod
-            
+        prime = 0
+        for i in range(2, n + 1):
+            prime += self._is_prime(i)
+        return ((self._factorial(prime) % mod) * (self._factorial(n - prime) % mod)) % mod
+    
+    def _is_prime(self, num):
+        if num % 2 == 0:
+            return 1 if num == 2 else 0
+        for i in range(3, int(num ** 0.5) + 1):
+            if num % i == 0:
+                return 0
+        return 1
+    
+    def _factorial(self, n):
+        res = 1
+        while n > 1:
+            res *= n
+            n -= 1
+        return res

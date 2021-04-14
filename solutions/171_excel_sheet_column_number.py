@@ -1,14 +1,8 @@
 class Solution:
-    def titleToNumber(self, s: str) -> int:
-    	"""Math.
-
-    	Running time: O(n) where n is the length of s.
-    	"""
-        n = len(s)
-        
-        ret = 0
-        
-        for i, c in enumerate(s):
-            ret += (ord(c) - ord('A') + 1) * 26 ** (n - i - 1)
-        
-        return ret
+    def titleToNumber(self, columnTitle: str) -> int:
+        res = 0
+        n = len(columnTitle)
+        for i in range(n - 1, -1, -1):
+            v = ord(columnTitle[i]) - ord('A') + 1
+            res = res + 26 ** (n - 1 - i) * v
+        return res
