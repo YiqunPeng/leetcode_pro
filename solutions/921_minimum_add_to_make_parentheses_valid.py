@@ -1,20 +1,17 @@
 class Solution:
     def minAddToMakeValid(self, S: str) -> int:
-        """Stack.
+        """String.
 
         Running time: O(n) where n is the length S.
         """
-        st = []
-        
-        for c in S:
-            if not st:
-                st.append(c)
-            elif c == '(':
-                st.append(c)
+        left = 0
+        res = 0
+        for p in s:
+            if p == '(':
+                left += 1
             else:
-                if st[-1] == '(':
-                    st.pop()
+                if left == 0:
+                    res += 1
                 else:
-                    st.append(c)
-                    
-        return len(st)
+                    left -= 1
+        return res + left

@@ -2,29 +2,18 @@ class Solution:
     def divide(self, dividend: int, divisor: int) -> int:
         """Binary search.
 
-        Running time: O(logdividend).
+        Running time: O(logn^2) where n == dividend.
         """
-        s = 1
-        if dividend < 0:
-            s = 0 - s
-            dividend = 0 - dividend
-        if divisor < 0:
-            s = 0 - s
-            divisor = 0 - divisor
-            
-        res = 0
-        
-        while dividend >= divisor:
-            d = divisor
-            q = 1
-            while d + d < dividend:
-                d = d + d
-                q = q + q
-            res += q
-            dividend -= d
-        
-        res = res if s > 0 else 0 - res
-        if res < - 2 ** 31 or res > 2 ** 31 - 1:
+        if dividend == -2 ** 31 and divisor == -1:
             return 2 ** 31 - 1
-        else:
-            return res
+        dnd, dsr = abs(dividend), abs(divisor)
+        res = 0
+        while dnd >= dsr:
+            x = 1
+            d = dsr
+            while d + d < dnd:
+                d += d
+                x += x
+            dnd -= d
+            res += x
+        return res if (dividend >= 0) == (divisor >= 0) else -res
