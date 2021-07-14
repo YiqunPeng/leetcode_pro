@@ -2,16 +2,19 @@ class Solution:
     def mergeKLists(self, lists: List[ListNode]) -> ListNode:
         if not lists:
             return None
-        if len(lists) == 1:
+        n = len(lists)
+        if n == 1:
             return lists[0]
-        return self.merge_two(self.mergeKLists(lists[:len(lists)//2]), self.mergeKLists(lists[len(lists)//2:]))
+        f = self.mergeKLists(lists[:n//2])
+        s = self.mergeKLists(lists[n//2:])
+        return self._merge(f, s)
     
-    def merge_two(self, l1, l2):
-        if not (l1 and l2):
-            return l1 or l2
-        if l1.val < l2.val:
-            l1.next = self.merge_two(l1.next, l2)
-            return l1
+    def _merge(self, f, s):
+        if not f or not s:
+            return f or s
+        if f.val < s.val:
+            f.next = self._merge(f.next, s)
+            return f
         else:
-            l2.next = self.merge_two(l1, l2.next)
-            return l2
+            s.next = self._merge(f, s.next)
+            return s

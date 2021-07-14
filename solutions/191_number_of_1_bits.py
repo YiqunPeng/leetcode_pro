@@ -4,11 +4,9 @@ class Solution(object):
 
         Running time: O(logn).
         """
-        ret = 0
-        
-        while n:
-            if n & 1 == 1:
-                ret += 1
-            n = n >> 1
-            
-        return ret
+        res = 0
+        while n != 0:
+            if n % 2 == 1:
+                res += 1
+            n //= 2
+        return res

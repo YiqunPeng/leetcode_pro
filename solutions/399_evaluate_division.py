@@ -1,34 +1,38 @@
 class Solution:
+    
+    def __init__(self):
+        self.graph = defaultdict(list)
+        self.memo = defaultdict(float)
+    
     def calcEquation(self, equations: List[List[str]], values: List[float], queries: List[List[str]]) -> List[float]:
-        """DFS.
-
-        Running time: O(e + q * n) where e is the number of equations, 
-                      q is the number of queries,
-                      n is the number of nodes in the graph.
-        """
-        def dfs(s, e, val, visited):
-            if not graph[s]:
-                return -1.0
-            if s == e:
-                return val
-            for n in graph[s]:
-                if n not in visited:
-                    visited.add(n)
-                    res = dfs(n, e, val * evals[(s, n)], visited)
-                    if res != -1.0:
-                        return res
-                    visited.remove(n)
-            return -1.0
-            
-        
-        graph = collections.defaultdict(set)
-        evals = {}
         for i in range(len(equations)):
-            A, B, k = equations[i][0], equations[i][1], values[i]
-            graph[A].add(B)
-            graph[B].add(A)
-            evals[(A, B)] = k
-            evals[(B, A)] = 1.0 / k
+            a, b, v = equations[i][0], equations[i][1], values[i]
+            self.graph[a].append((b, v))
+            self.graph[b].append((a, 1 / v))
+            self.memo[(a, b)] = v
+            self.memo[(b, a)] = 1 / v
+            self.memo[(a, a)] = self.memo[(b, b)] = 1.0
+        res = []
+        for a, b in queries:
+            if a not in self.graph or b not in self.graph:
+                res.append(-1.0)
+                continue
+            if (a, b) in self.memo:
+                res.append(self.memo[(a, b)])
+            else:
+                res.append(self._dfs(a, a, b, 1.0, set([a])))
+        return res
 
-        return [dfs(a, b, 1.0, set([a])) for a, b in queries]
-            
+    def _dfs(self, a, curr, b, val, seen):
+        if curr == b:
+            self.memo[(a, b)] = val
+            return val
+        for n, d in self.graph[curr]:
+            if n not in seen:
+                seen.add(n)
+                self.memo[(a, n)] = val * d
+                res = self._dfs(a, n, b, val * d, seen)
+                seen.remove(n)
+                if res != -1.0:
+                    return res
+        return -1.0

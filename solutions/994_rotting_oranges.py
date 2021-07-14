@@ -1,26 +1,29 @@
 class Solution:
     def orangesRotting(self, grid: List[List[int]]) -> int:
-        total = 0
-        rotten = deque()
-        for i in range(len(grid)):
-            for j in range(len(grid[0])):
-                if grid[i][j] == 1 or grid[i][j] == 2:
-                    if grid[i][j] == 2:
-                        rotten.append((i, j))
-                    total += 1
-        if total == 0:
+        if not grid:
             return 0
-        rotten_cnt = len(rotten)
-        time = 0
+        fresh = 0
+        m, n = len(grid), len(grid[0])
+        rotten = []
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j] == 1:
+                    fresh += 1
+                if grid[i][j] == 2:
+                    rotten.append((i, j))
+        res = 0
         while rotten:
-            if rotten_cnt == total:
-                return time
-            for k in range(len(rotten)):
-                i, j = rotten.popleft()
-                for ni, nj in [(i+1, j), (i-1, j), (i, j+1), (i, j-1)]:
-                    if 0 <= ni < len(grid) and 0 <= nj < len(grid[0]) and grid[ni][nj] == 1:
+            new_rotten = []
+            for i, j in rotten:
+                for (ni, nj) in [(i+1, j), (i-1, j), (i, j+1), (i, j-1)]:
+                    if 0 <= ni < m and 0 <= nj < n and grid[ni][nj] == 1:
                         grid[ni][nj] = 2
-                        rotten.append((ni, nj))
-            time += 1
-            rotten_cnt += len(rotten)
-        return -1
+                        fresh -= 1
+                        new_rotten.append((ni, nj))
+            rotten = new_rotten
+            if rotten:
+                res += 1
+        if fresh == 0:
+            return res
+        else:
+            return -1

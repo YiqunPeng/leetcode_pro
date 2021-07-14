@@ -1,15 +1,17 @@
 class Solution:
+    
+    def __init__(self):
+        self.s = 0
+    
     def convertBST(self, root: TreeNode) -> TreeNode:
-        self._convert(root, 0)
+        self._convert(root)
         return root
     
-    def _convert(self, root, s):
+    def _convert(self, root):
         if not root:
-            return s
-        if root.right:
-            s = self._convert(root.right, s)
-        root.val += s
-        s = root.val
-        if root.left:
-            s = self._convert(root.left, s)
-        return s
+            return
+        self._convert(root.right)
+        v = root.val
+        root.val += self.s
+        self.s += v
+        self._convert(root.left)

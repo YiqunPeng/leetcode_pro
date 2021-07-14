@@ -6,21 +6,23 @@ class Solution:
         """
         nums.sort()
         res = []
-        n = len(nums)
-        for i in range(0, n - 2):
-            if not i or nums[i] != nums[i-1]:
-                l, r = i + 1, n - 1
-                while l < r:
-                    if nums[l] + nums[r] + nums[i] == 0:
-                        res.append([nums[l], nums[r], nums[i]])
-                        while l < n - 1 and nums[l] == nums[l+1]:
-                            l += 1
-                        while r > r and nums[r] == nums[r-1]:
-                            r -= 1
-                        l += 1
-                        r -= 1
-                    elif nums[l] + nums[r] + nums[i] > 0:
-                        r -= 1
-                    else:
-                        l += 1
+        for i in range(len(nums)-2):
+            if i and nums[i] == nums[i-1]:
+                continue
+            if nums[i] > 0:
+                break
+            j, k = i + 1, len(nums) - 1
+            while j < k:
+                if nums[i] + nums[j] + nums[k] == 0:
+                    res.append([nums[i], nums[j], nums[k]])
+                    while j < k and nums[j] == nums[j+1]:
+                        j += 1
+                    while j < k and nums[k] == nums[k-1]:
+                        k -= 1
+                    j += 1
+                    k -= 1
+                elif nums[i] + nums[j] + nums[k] > 0:
+                    k -= 1
+                else:
+                    j += 1
         return res
