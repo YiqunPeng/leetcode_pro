@@ -1,9 +1,15 @@
 class Solution:
-    def depthSum(self, nestedList: List[NestedInteger], d=1) -> int:
-        res = 0
+    
+    def __init__(self):
+        self.s = 0
+    
+    def depthSum(self, nestedList: List[NestedInteger]) -> int:
+        self._recursion(nestedList, 1)
+        return self.s
+    
+    def _recursion(self, nestedList, depth):
         for item in nestedList:
             if item.isInteger():
-                res += item.getInteger() * d
+                self.s += item.getInteger() * depth
             else:
-                res += self.depthSum(item.getList(), d + 1)
-        return res
+                self._recursion(item.getList(), depth + 1)

@@ -1,14 +1,19 @@
+from heapq import heappush, heappop, heapify
+
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
     	"""Heap.
 
-    	Running time: O(klogn) where n == len(nums).
+    	Running time: O(nlogk) where n == len(nums).
     	"""
-        c = collections.Counter(nums)
-        h = []
-        for kk, v in c.items():
-            heapq.heappush(h, (-v, kk))
+        counter = Counter(nums)
+        heap = []
+        heapify(heap)
+        for kk, v in counter.items():
+            heappush(heap, (v, kk))
+            if len(heap) > k:
+                heappop(heap)
         res = []
-        for i in range(k):
-            res.append(heapq.heappop(h)[1])
+        for i in range(len(heap)):
+            res.append(heap[i][1])
         return res

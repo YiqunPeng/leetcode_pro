@@ -4,14 +4,14 @@ class Solution:
         self.s = 0
     
     def sumNumbers(self, root: TreeNode) -> int:
-        self._sum(root, 0)
+        self._traverse(root, 0)
         return self.s
-        
-    def _sum(self, root, v):
+    
+    def _traverse(self, root, val):
         if not root:
             return
+        val = val * 10 + root.val
         if not root.left and not root.right:
-            self.s += v * 10 + root.val
-            return
-        self._sum(root.left, v * 10 + root.val)
-        self._sum(root.right, v * 10 + root.val)
+            self.s += val
+        self._traverse(root.left, val)
+        self._traverse(root.right, val)

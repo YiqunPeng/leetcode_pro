@@ -7,19 +7,24 @@ class Solution:
 
         Running time: O(n) where n == len(nums).
         """
-        n = len(nums)    
+        if not nums:
+            return None
+        n = len(nums)
         p = n - 1
         while p > 0 and nums[p] <= nums[p-1]:
             p -= 1
         if p == 0:
-            nums.sort()
-        else:
-            q = p - 1
-            while p + 1 < n and (nums[p] == nums[p+1] or nums[p+1] > nums[q]):
-                p += 1
-            nums[q], nums[p] = nums[p], nums[q]
-            l, r = q + 1, n - 1
-            while l < r:
-                nums[l], nums[r] = nums[r], nums[l]
-                l += 1
-                r -= 1
+            self._reverse(nums, 0, n - 1)
+            return
+        pos = p - 1
+        q = n - 1
+        while q > pos and nums[q] <= nums[pos]:
+            q -= 1
+        nums[pos], nums[q] = nums[q], nums[pos]
+        return self._reverse(nums, pos + 1, n - 1)
+        
+    def _reverse(self, nums, s, e):
+        while s < e and s < len(nums):
+            nums[s], nums[e] = nums[e], nums[s]
+            s += 1
+            e -= 1

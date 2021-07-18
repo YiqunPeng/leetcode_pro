@@ -1,13 +1,20 @@
 class Solution:
-    def rangeSumBST(self, root: TreeNode, low: int, high: int) -> int:
-        return self._sum(root, 0, low, high)
     
-    def _sum(self, node, s, low, high):
-        if not node:
-            return s
-        if node.val < low:
-            return self._sum(node.right, s, low, high)
-        elif node.val > high:
-            return self._sum(node.left, s, low, high)
+    def __init__(self):
+        self.s = 0
+    
+    def rangeSumBST(self, root: TreeNode, low: int, high: int) -> int:
+        self._search(root, low, high)
+        return self.s
+    
+    def _search(self, root, l, h):
+        if not root:
+            return 0
+        if root.val < l:
+            self._search(root.right, l, h)
+        elif root.val > h:
+            self._search(root.left, l, h)
         else:
-            return node.val + self._sum(node.left, s, low, high) + self._sum(node.right, s, low, high)
+            self.s += root.val
+            self._search(root.right, l, h)
+            self._search(root.left, l, h)

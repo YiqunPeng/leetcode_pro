@@ -4,16 +4,20 @@ class Solution:
 
         Running time: O(n) where n == len(s).
         """
-        l = list(s)
-        p = []
-        for i in range(len(s)):
-            if s[i] == '(':
-                p.append(i)
-            elif s[i] == ')':
-                if not p:
-                    l[i] = ''
-                else:
-                    p.pop()
-        while p:
-            l[p.pop()] = ''
-        return ''.join(l)
+        left, right = 0, 0
+        for c in s:
+            if c == ')':
+                right += 1
+        res = []
+        for c in s:
+            if c == '(':
+                if right == left:
+                    continue
+                left += 1
+            elif c == ')':
+                right -= 1
+                if left == 0:
+                    continue
+                left -= 1
+            res.append(c)
+        return ''.join(res)
