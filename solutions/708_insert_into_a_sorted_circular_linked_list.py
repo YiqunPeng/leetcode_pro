@@ -12,24 +12,23 @@ class Solution:
         Running time: O(n) where n is the number of nodes in the list.
         """
         if not head:
-            node = Node(insertVal)
-            node.next = node
-            return node
-        n = head
-        if n.val > n.next.val:
-            g = n
-        else:
-            n = n.next
-            while n != head and n.val <= n.next.val:
-                n = n.next
-            g = n
-        if insertVal >= g.val or insertVal <= g.next.val:
-            node = Node(insertVal, g.next)
-            g.next = node
+            nhead = Node(insertVal)
+            nhead.next = nhead
+            return nhead
+        h = head
+        while h.next != head and h.val <= h.next.val:
+            h = h.next
+        max_node = h
+        min_node = h.next
+        if max_node.val == min_node.val or insertVal >= max_node.val or insertVal <= min_node.val:
+            new_node = Node(insertVal, min_node)
+            max_node.next = new_node
             return head
-        while not (g.val <= insertVal <= g.next.val):
-            g = g.next
-        node = Node(insertVal, g.next)
-        g.next = node
-        return head
+        node = min_node
+        while node.next != min_node:
+            if node.next.val >= insertVal:
+                new_node = Node(insertVal, node.next)
+                node.next = new_node
+                return head
+            node = node.next
     

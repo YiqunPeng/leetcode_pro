@@ -8,15 +8,13 @@ class Solution:
             return 0
         res = 0
         l, r = 0, len(height) - 1
-        while l < r:
+        while l + 1 < r:
             if height[l] <= height[r]:
-                if l + 1 < r:
-                    res += max(0, height[l] - height[l+1])
-                    height[l+1] = max(height[l+1], height[l])
+                res += max(0, height[l] - height[l+1])
+                height[l+1] = max(height[l+1], height[l])
                 l += 1
             else:
-                if r - 1 > l:
-                    res += max(0, height[r] - height[r-1])
-                    height[r-1] = max(height[r], height[r-1])
+                res += max(0, height[r] - height[r-1])
+                height[r-1] = max(height[r], height[r-1])
                 r -= 1
         return res
