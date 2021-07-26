@@ -4,12 +4,9 @@ class Solution:
 
         Running time: O(n) where n is the length of prices.
         """
-        if not prices:
-            return 0
-        n = len(prices)
+        minp = prices[0]
         res = 0
-        m = prices[0]
-        for i in range(1, n):
-            res = max(res, prices[i] - m)
-            m = min(m, prices[i])
+        for p in prices:
+            res = max(res, p - minp)
+            minp = min(minp, p)
         return res
