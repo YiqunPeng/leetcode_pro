@@ -12,11 +12,10 @@ class Solution:
 		Running Time: O(h) where h is the height of the BST.
         """
         prev = None
-        curr = root
-        while curr:
-            if curr.val > p.val:
-                prev = curr
-                curr = curr.left
+        while root:
+            if root.val > p.val:
+                prev = root
+                root = root.left
             else:
-                curr = curr.right
+                root = root.right
         return prev

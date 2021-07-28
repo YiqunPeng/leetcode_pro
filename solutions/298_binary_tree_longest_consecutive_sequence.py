@@ -4,20 +4,18 @@ class Solution:
         self.res = 0
     
     def longestConsecutive(self, root: TreeNode) -> int:
-        if not root:
-            return 0
-        self._preorder(root, 1)
+        self._dfs(root)
         return self.res
     
-    def _preorder(self, root, seq):
+    def _dfs(self, root):
+        if not root:
+            return 0
+        lseq = self._dfs(root.left)
+        rseq = self._dfs(root.right)
+        seq = 1
+        if root.left and root.val == root.left.val - 1:
+            seq = max(seq, lseq + 1)
+        if root.right and root.val == root.right.val - 1:
+            seq = max(seq, rseq + 1)
         self.res = max(self.res, seq)
-        if root.left:
-            if root.left.val == root.val + 1:
-                self._preorder(root.left, seq + 1)
-            else:
-                self._preorder(root.left, 1)
-        if root.right:
-            if root.right.val == root.val + 1:
-                self._preorder(root.right, seq + 1)
-            else:
-                self._preorder(root.right, 1)
+        return seq

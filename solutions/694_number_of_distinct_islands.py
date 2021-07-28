@@ -1,33 +1,21 @@
 class Solution:
     def numDistinctIslands(self, grid: List[List[int]]) -> int:
-        """BFS.
-        """
-        if not grid: return 0
-        
-        island_set = set()
-        m, n = len(grid), len(grid[0])
-        v = [[False for j in range(n)] for i in range(m)]
-        
-        def bfs(x, y, v):
-            island = []
-            m, n = len(grid), len(grid[0])
-            q = [(x, y)]
-            while q:
-                i, j = q.pop(0)
-                for n_i, n_j in [(i+1, j), (i-1, j), (i, j+1), (i, j-1)]:
-                    if not (0 <= n_i < m and 0 <= n_j < n) or v[n_i][n_j]:
-                        continue
-                    if grid[n_i][n_j] == 1:
-                        v[n_i][n_j] = True
-                        island.append((n_i - x, n_j - y))
-                        q.append((n_i, n_j))
-            return str(island)
-        
-
-        for i in range(m):
-            for j in range(n):
-                if grid[i][j] == 1 and not v[i][j]:
-                    v[i][j] = True
-                    island_set.add(bfs(i, j, v))
-        
-        return len(island_set)
+        islands = set()
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
+                if grid[i][j] == 1:
+                    islands.add(self._bfs(grid, i, j))
+        return len(islands)
+    
+    def _bfs(self, grid, si, sj):
+        island = [(0, 0)]
+        grid[si][sj] = 0
+        q = deque([(si, sj)])
+        while q:
+            i, j = q.popleft()
+            for ni, nj in [(i+1, j), (i-1, j), (i, j+1), (i, j-1)]:
+                if 0 <= ni < len(grid) and 0 <= nj < len(grid[0]) and grid[ni][nj] == 1:
+                    grid[ni][nj] = 0
+                    island.append((ni - si, nj - sj))
+                    q.append((ni, nj))
+        return tuple(island)

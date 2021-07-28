@@ -1,15 +1,11 @@
 class Solution:
-    def customSortString(self, S: str, T: str) -> str:
-        """Hash table.
-
-        Running time: O(s + t) where s == len(S) and t == len(T).
-        """
-        c = collections.Counter(T)
+    def customSortString(self, order: str, s: str) -> str:
+        counter = Counter(s)
         res = ''
-        for s in S:
-            if s in c:
-                res = res + s * c[s]
-                c[s] = 0
-        for k, v in c.items():
-            res = res + k * v
+        for c in order:
+            if c in counter:
+                res = res + c * counter[c]
+                counter.pop(c)
+        for k in counter:
+            res = res + k * counter[k]
         return res
