@@ -4,7 +4,7 @@ class Solution:
 
     	Running time: O(n) where n == len(nums).
     	"""
-        c = collections.Counter(nums)
+        c = Counter(nums)
         res = 0
         for key, v in c.items():
             if (k == 0 and v >= 2) or (k != 0 and key + k in c):

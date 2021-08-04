@@ -1,15 +1,15 @@
 class Solution:
     def lcaDeepestLeaves(self, root: TreeNode) -> TreeNode:
-        return self._post_order(root)[1]
+        return self._lca(root)[1]
     
-    def _post_order(self, root):
+    def _lca(self, root):
         if not root:
             return 0, None
-        ld, ln = self._post_order(root.left)
-        rd, rn = self._post_order(root.right)
-        if ld > rd:
-            return ld + 1, ln
-        elif ld < rd:
-            return rd + 1, rn
+        l_depth, l_lca = self._lca(root.left)
+        r_depth, r_lca = self._lca(root.right)
+        if l_depth == r_depth:
+            return l_depth + 1, root
+        elif l_depth > r_depth:
+            return l_depth + 1, l_lca
         else:
-            return ld + 1, root
+            return r_depth + 1, r_lca

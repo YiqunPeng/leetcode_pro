@@ -4,13 +4,10 @@ class Solution:
 
     	Running time: O(n) where n is the length of S.
     	"""
-        s = []
-        
-        for c in S:
-            if not s or s[-1] != c:
-                s.append(c)
+        st = []
+        for c in s:
+            if not st or st[-1] != c:
+                st.append(c)
             else:
-                while s and s[-1] == c:
-                    s.pop()
-        
-        return ''.join(s)
+                st.pop()
+        return ''.join(st)
