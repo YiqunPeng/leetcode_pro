@@ -1,19 +1,19 @@
 class Solution:
     def minSubArrayLen(self, s: int, nums: List[int]) -> int:
-        """Prefix array.
+        """Sliding window.
 
         Running time: O(n) where n == len(nums).
         """
-        n = len(nums)
-        pref = [0] * (n + 1)
-        for i in range(n):
-            pref[i+1] = pref[i] + nums[i]
-        if pref[-1] < s:
-            return 0
+        res = len(nums) + 1
         i = 0
-        res = n
-        for j in range(1, n + 1):
-            while pref[j] - pref[i] >= s:
+        s = 0
+        for j in range(0, len(nums)):
+            s += nums[j]
+            if s >= target:
+                while i < j and s - nums[i] >= target:
+                    s -= nums[i]
+                    i += 1
+                res = min(j - i + 1, res)
+                s -= nums[i]
                 i += 1
-                res = min(res, j - i + 1)
-        return res
+        return res if res <= len(nums) else 0
