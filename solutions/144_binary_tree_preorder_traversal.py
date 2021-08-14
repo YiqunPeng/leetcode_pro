@@ -9,18 +9,16 @@ class Solution:
     def preorderTraversal(self, root: TreeNode) -> List[int]:
         """Stack.
 
-        Running time: O(n) where n is the number of nodes in the tree.
+        Running time: O(h) where h is the height of the tree.
         """
-        stack = []
-        preorder = []
-        
-        while stack or root:
+        st = []
+        res = []
+        while st or root:
             if root:
-                preorder.append(root.val)
-                stack.append(root)
+                st.append(root)
+                res.append(root.val)
                 root = root.left
             else:
-                root = stack.pop()
+                root = st.pop()
                 root = root.right
-        
-        return preorder
+        return res
