@@ -1,39 +1,33 @@
 class Solution:
     def myAtoi(self, s: str) -> int:
-        """String.
-
-        Running time: O(n) where n == len(s).
-        """
-        p = 0
-        while p < len(s) and s[p] == ' ':
-            p += 1
-        if p < len(s):
-            if s[p] == '-':
-                sign = '-'
-                p += 1
-            elif s[p] == '+':
-                sign = '+'
-                p += 1
+        max_value = 2 ** 31 - 1
+        min_value = -2 ** 31
+        num = 0
+        digit_only = False
+        sign = None
+        for c in s:
+            if '0' <= c <= '9':
+                digit_only = True
+                c = int(c)
+                if num is None:
+                    num = 0
+                if sign == '-':
+                    if (num == 214748364 and c > 8) or (num > 214748364):
+                        return min_value
+                else:
+                    if (num == 214748364 and c > 7) or (num > 214748364):
+                        return max_value
+                num = num * 10 + c
             else:
-                sign = '+'
-        num = ''
-        while p < len(s) and s[p] in string.digits:
-            if num or s[p] != '0':
-                num += s[p]
-            p += 1
-        if num:
-            if self._is_int(num, sign):
-                return int(num) if sign == '+' else -int(num)
-            else:
-                return -2147483648 if sign == '-' else 2147483647
-        else:
-            return 0
-    
-    def _is_int(self, num, sign):
-        max_v, min_v = '2147483647', '2147483648'
-        if len(num) > 10:
-            return False
-        elif len(num) < 10:
-            return True
-        else:
-            return num < max_v if sign == '+' else num < min_v
+                if digit_only:
+                    return -num if sign == '-' else num
+                if c == ' ':
+                    continue
+                if c in '+-':
+                    digit_only = True
+                    if sign is not None:
+                        return -num if sign == '-' else num
+                    sign = c
+                else:
+                    return -num if sign == '-' else num
+        return -num if sign == '-' else num

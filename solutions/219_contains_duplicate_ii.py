@@ -5,10 +5,8 @@ class Solution:
     	Running time: O(n) where n is the length of nums.
     	"""
         d = {}
-        
-        for i, num in enumerate(nums):
-            if num in d and i - d[num] <= k:
+        for i in range(len(nums)):
+            if nums[i] in d and i - d[nums[i]] <= k:
                 return True
-            d[num] = i
-        
+            d[nums[i]] = i
         return False

@@ -1,16 +1,30 @@
-from heapq import heapify, heappush, heappushpop
-
 class Solution:
     def findKthLargest(self, nums: List[int], k: int) -> int:
-        """Heap.
+        """Quick select.
 
-        Runninng time: O(nlogk) where n == len(nums).
+        Running time: O(n) where n == len(nums).
         """
-        heap = []
-        heapify(heap)
-        for num in nums:
-            if len(heap) < k:
-                heappush(heap, num)
+        left, right = 0, len(nums) - 1
+        idx = -1
+        while idx != k - 1:
+            idx = self._partition(nums, left, right)
+            if idx < k - 1:
+                left = idx + 1
             else:
-                heappushpop(heap, num)
-        return heappop(heap)
+                right = idx - 1
+        return nums[idx]
+    
+    def _partition(self, nums, left, right):
+        pivot = nums[left]
+        l, r = left + 1, right
+        while l <= r:
+            if nums[l] < pivot < nums[r]:
+                nums[l], nums[r] = nums[r], nums[l]
+                l += 1
+                r -= 1
+            elif nums[l] >= pivot:
+                l += 1
+            elif nums[r] <= pivot:
+                r -= 1
+        nums[left], nums[r] = nums[r], nums[left]
+        return r

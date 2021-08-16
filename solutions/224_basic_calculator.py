@@ -2,30 +2,40 @@ class Solution:
     def calculate(self, s: str) -> int:
         """Stack.
         """
-        val = 0
+        return self._calc(s, 0)[0]
+    
+    def _calc(self, s, idx):
         num = 0
-        sign = 1
+        sign = '+'
         st = []
-        for c in s:
+        while idx < len(s):
+            c = s[idx]
             if '0' <= c <= '9':
                 num = num * 10 + int(c)
-            elif c == '-':
-                val += sign * num
+            elif c in '+-':
+                self._update_stack(st, sign, num)
+                sign = c
                 num = 0
-                sign = -1
-            elif c == '+':
-                val += sign * num
-                num = 0
-                sign = 1
             elif c == '(':
-                st.append(val)
-                st.append(sign)
-                val = 0
-                sign = 1
+                num, new_idx = self._calc(s, idx + 1)
+                idx = new_idx
             elif c == ')':
-                val += sign * num
-                val *= st.pop()
-                val += st.pop()
-                num = 0
-                sign = 1
-        return val + sign * num
+                self._update_stack(st, sign, num)
+                return sum(st), idx
+            idx += 1
+        self._update_stack(st, sign, num)
+        return sum(st), idx
+        
+    def _update_stack(self, st, sign, num):
+        if sign == '+':
+            st.append(num)
+        if sign == '-':
+            st.append(-num)
+        if sign == '*':
+            st.append(st.pop() * num)
+        if sign == '/':
+            v = st.pop()
+            if v * num < 0:
+                st.append(-(abs(v) // abs(num)))
+            else:
+                st.append(v // num)

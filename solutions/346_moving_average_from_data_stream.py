@@ -1,10 +1,8 @@
 class MovingAverage:
 
     def __init__(self, size: int):
-        """Running time: O(1).
-        """
         self.size = size
-        self.arr = collections.deque([])
+        self.arr = deque()
         self.sum = 0
         
 
@@ -18,7 +16,6 @@ class MovingAverage:
             self.arr.append(val)
             return self.sum / len(self.arr)
         else:
-            self.sum = self.sum - self.arr[0] + val
-            self.arr.popleft()
+            self.sum = self.sum - self.arr.popleft() + val
             self.arr.append(val)
             return self.sum / self.size

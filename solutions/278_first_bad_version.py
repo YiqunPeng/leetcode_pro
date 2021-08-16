@@ -1,13 +1,10 @@
 class Solution:
     def firstBadVersion(self, n):
-        lo = 1
-        hi = n
-        while lo <= hi:
-            mi = (lo + hi) // 2
-            bad = isBadVersion(mi)
-            if mi == 1 and bad or mi > 1 and bad and not isBadVersion(mi-1):
-                return mi
-            if not bad:
-                lo = mi + 1
+        l, r = 1, n + 1
+        while l < r:
+            m = (l + r) // 2
+            if isBadVersion(m):
+                r = m
             else:
-                hi = mi - 1
+                l = m + 1
+        return l

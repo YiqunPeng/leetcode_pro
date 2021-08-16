@@ -1,8 +1,8 @@
 class TreeNode:
     
-    def __init__(self, val):
+    def __init__(self, val=''):
         self.val = val
-        self.children = {}
+        self.children = defaultdict(TreeNode)
         self.end = False
 
 class WordDictionary:
@@ -11,13 +11,11 @@ class WordDictionary:
         """
         Initialize your data structure here.
         """
-        self.root = TreeNode('')
+        self.root = TreeNode()
 
     def addWord(self, word: str) -> None:
         node = self.root
         for c in word:
-            if c not in node.children:
-                node.children[c] = TreeNode(c)
             node = node.children[c]
         node.end = True
         

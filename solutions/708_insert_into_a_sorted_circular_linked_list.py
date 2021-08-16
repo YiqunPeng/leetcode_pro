@@ -1,34 +1,23 @@
-"""
-# Definition for a Node.
-class Node:
-    def __init__(self, val=None, next=None):
-        self.val = val
-        self.next = next
-"""
 class Solution:
     def insert(self, head: 'Node', insertVal: int) -> 'Node':
         """Linked list.
 
         Running time: O(n) where n is the number of nodes in the list.
         """
+        node = Node(insertVal)
         if not head:
-            nhead = Node(insertVal)
-            nhead.next = nhead
-            return nhead
+            node.next = node
+            return node
         h = head
-        while h.next != head and h.val <= h.next.val:
+        while h.next != head and h.next.val >= h.val:
             h = h.next
-        max_node = h
-        min_node = h.next
-        if max_node.val == min_node.val or insertVal >= max_node.val or insertVal <= min_node.val:
-            new_node = Node(insertVal, min_node)
-            max_node.next = new_node
+        if h.next.val >= node.val or node.val >= h.val:
+            node.next = h.next
+            h.next = node
             return head
-        node = min_node
-        while node.next != min_node:
-            if node.next.val >= insertVal:
-                new_node = Node(insertVal, node.next)
-                node.next = new_node
-                return head
-            node = node.next
+        while h.next.val < node.val:
+            h = h.next
+        node.next = h.next
+        h.next = node
+        return head
     

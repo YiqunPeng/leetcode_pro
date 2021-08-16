@@ -2,24 +2,34 @@ class Solution:
     def calculate(self, s: str) -> int:
         """Stack.
         """
-        res = 0
+        return self._calc(s, 0)
+    
+    def _calc(self, s, idx):
         num = 0
-        temp = 0
         sign = '+'
-        for i in range(len(s)):
-            if '0' <= s[i] <= '9':
-                num = num * 10 + int(s[i])
-            if s[i] in '+-*/' or i == len(s) - 1:
-                if sign == '+':
-                    res += temp
-                    temp = num
-                elif sign == '-':
-                    res += temp
-                    temp = -num
-                elif sign == '*':
-                    temp *= num
-                elif sign == '/':
-                    temp = int(float(temp) / num)
-                sign = s[i]
+        st = []
+        while idx < len(s):
+            c = s[idx]
+            if '0' <= c <= '9':
+                num = num * 10 + int(c)
+            elif c in '+-*/':
+                self._update_stack(st, sign, num)
                 num = 0
-        return temp + res
+                sign = c
+            idx += 1
+        self._update_stack(st, sign, num)
+        return sum(st)                
+                
+    def _update_stack(self, st, sign, num):
+        if sign == '+':
+            st.append(num)
+        if sign == '-':
+            st.append(-num)
+        if sign == '*':
+            st.append(st.pop() * num)
+        if sign == '/':
+            val = st.pop()
+            if val * num < 0:
+                st.append(-(abs(val) // abs(num)))
+            else:
+                st.append(val // num)

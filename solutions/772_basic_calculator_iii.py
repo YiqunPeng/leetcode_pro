@@ -1,37 +1,41 @@
 class Solution:
     def calculate(self, s: str) -> int:
-        """Recursion.
+        """Stack.
         """
-        q = deque()
-        for c in s:
-            q.append(c)
-        q.append('+')
-        return self._recursion(q)
+        return self._calc(s, 0)[0]
     
-    def _recursion(self, q):
-        res = 0
+    def _calc(self, s, idx):
         num = 0
-        temp = 0
         sign = '+'
-        while q:
-            c = q.popleft()
+        st = []
+        while idx < len(s):
+            c = s[idx]
             if '0' <= c <= '9':
                 num = num * 10 + int(c)
             elif c == '(':
-                num = self._recursion(q)
-            elif c in '+-*/)':
-                if sign == '+':
-                    res += temp
-                    temp = num
-                elif sign == '-':
-                    res += temp
-                    temp = -num
-                elif sign == '*':
-                    temp *= num
-                elif sign == '/':
-                    temp = int(float(temp) / num)
-                if c == ')':
-                    break
-                num = 0
+                num, n_idx = self._calc(s, idx + 1)
+                idx = n_idx
+            elif c == ')':
+                self._update_stack(st, sign, num)
+                return sum(st), idx
+            else:
+                self._update_stack(st, sign, num)
                 sign = c
-        return res + temp
+                num = 0
+            idx += 1
+        self._update_stack(st, sign, num)
+        return sum(st), idx
+    
+    def _update_stack(self, st, sign, num):
+        if sign == '+':
+            st.append(num)
+        if sign == '-':
+            st.append(-num)
+        if sign == '*':
+            st.append(st.pop() * num)
+        if sign == '/':
+            v = st.pop()
+            if v * num < 0:
+                st.append(-(abs(v) // abs(num)))
+            else:
+                st.append(v // num)

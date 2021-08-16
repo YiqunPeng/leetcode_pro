@@ -4,17 +4,16 @@ class Solution:
 
         Running Time: O(log n)
         """
+        if n < 0:
+            return self.myPow(1 / x, -n)
         if n == 0:
             return 1.0
         if n == 1:
             return x
-        
-        if n < 0:
-            n = -n
-            x = 1.0 / x
-        
-        t = self.myPow(x, n // 2)
-        return t * t * self.myPow(x, n % 2)
+        if n % 2 == 0:
+            return self.myPow(x * x, n // 2)
+        else:
+            return self.myPow(x * x, n // 2) * x
  
     def myPow_2(self, x: float, n: int) -> float:
         """Binary Search, Iterative

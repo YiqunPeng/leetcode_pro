@@ -16,8 +16,6 @@ class Solution:
                 if b != 0.0:
                     nxt.append(a / b)
                 for n in nxt:
-                    copy.append(n)
-                    if self.judgePoint24(copy):
+                    if self.judgePoint24(copy + [n]):
                         return True
-                    copy.pop()
         return False
