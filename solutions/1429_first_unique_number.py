@@ -1,14 +1,17 @@
 class FirstUnique:
 
     def __init__(self, nums: List[int]):
-        self.s = collections.deque(nums)
-        self.f = collections.Counter(nums)
-
+        self.f = Counter(nums)
+        self.q = deque(self.f.keys())
+            
     def showFirstUnique(self) -> int:
-        while self.s and self.f[self.s[0]] != 1:
-            self.s.popleft()
-        return self.s[0] if self.s else -1
+        while self.q and self.f[self.q[0]] > 1:
+            self.q.popleft()
+        return self.q[0] if self.q else -1
 
     def add(self, value: int) -> None:
-        self.s.append(value)
-        self.f[value] += 1
+        if value not in self.f:
+            self.f[value] = 1
+            self.q.append(value)
+        else:
+            self.f[value] += 1
