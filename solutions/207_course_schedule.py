@@ -1,19 +1,26 @@
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        prer = defaultdict(set)
-        inde = {}
+        """Topological sort.
+        """
+        d = collections.defaultdict(set)
+        re_d = collections.defaultdict(set)
         for a, b in prerequisites:
-            prer[b].add(a)
-            inde[b] = inde.get(b, 0)
-            inde[a] = inde.get(a, 0) + 1
-        q = deque()
-        for k in inde:
-            if inde[k] == 0:
-                q.append(k)
+            d[a].add(b)
+            re_d[b].add(a)
+        
+        f = 0
+        q = collections.deque([])
+        for i in range(numCourses):
+            if i not in d:
+                q.append(i)
+                f += 1
+        
         while q:
-            node = q.popleft()
-            for c in prer[node]:
-                inde[c] -= 1
-                if inde[c] == 0:
-                    q.append(c)
-        return all(inde[k] == 0 for k in inde)
+            c = q.popleft()
+            for nc in re_d[c]:
+                d[nc].remove(c)
+                if len(d[nc]) == 0:
+                    q.append(nc)
+                    f += 1
+        
+        return f == numCourses

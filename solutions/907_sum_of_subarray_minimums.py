@@ -1,15 +1,12 @@
 class Solution:
-    def sumSubarrayMins(self, A: List[int]) -> int:
-    	"""Stack.
-    	"""
-        mod = 10 ** 9 + 7
-        res = 0
-        A = [0] + A + [0]
-        n = len(A)
+    def sumSubarrayMins(self, arr: List[int]) -> int:
+        arr.append(0)
         st = []
-        for i in range(n):
-            while st and A[st[-1]] > A[i]:
-                idx = st.pop()
-                res += A[idx] * (i - idx) * (idx - st[-1]) % mod
+        res = 0
+        for i in range(len(arr)):
+            while st and arr[st[-1]] >= arr[i]:
+                p = st.pop()
+                n_top = st[-1] if st else -1
+                res += arr[p] * (p - n_top) * (i - p)
             st.append(i)
-        return res % mod
+        return res % (10 ** 9 + 7)

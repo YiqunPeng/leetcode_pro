@@ -4,8 +4,8 @@ class Solution:
 
         Running time: O(n) where n == len(nums).
         """
-        d = {nums[0]: 0}
-        for i in range(1, len(nums)):
-            if target - nums[i] in d:
-                return [i, d[target - nums[i]]]
-            d[nums[i]] = i
+        d = {}
+        for i, v in enumerate(nums):
+            if target - v in d:
+                return [d[target - v], i]
+            d[v] = i

@@ -1,24 +1,26 @@
 class Solution:
     def findOrder(self, numCourses: int, prerequisites: List[List[int]]) -> List[int]:
-        g = defaultdict(set)
-        inde = defaultdict(int)
+        """Topological sort.
+        """
+        d = collections.defaultdict(int)
+        rev_d = collections.defaultdict(set)
         for a, b in prerequisites:
-            g[b].add(a)
-            inde[a] += 1
-        q = deque()
+            d[a] += 1
+            rev_d[b].add(a)
+        
         res = []
+        q = collections.deque([])
         for i in range(numCourses):
-            if inde[i] == 0:
-                res.append(i)
+            if d[i] == 0:
                 q.append(i)
+                res.append(i)
+        
         while q:
-            node = q.popleft()
-            for cour in g[node]:
-                inde[cour] -= 1
-                if inde[cour] == 0:
-                    res.append(cour)
-                    q.append(cour)
-        if len(res) == numCourses:
-            return res
-        else:
-            return []
+            c = q.popleft()
+            for nc in rev_d[c]:
+                d[nc] -= 1
+                if d[nc] == 0:
+                    q.append(nc)
+                    res.append(nc)
+        
+        return res if len(res) == numCourses else []

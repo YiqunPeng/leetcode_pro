@@ -1,29 +1,25 @@
 class Solution:
     def orangesRotting(self, grid: List[List[int]]) -> int:
-        if not grid:
-            return 0
-        fresh = 0
-        m, n = len(grid), len(grid[0])
-        rotten = []
-        for i in range(m):
-            for j in range(n):
+        f = 0
+        q = collections.deque()
+        for i in range(len(grid)):
+            for j in range(len(grid[0])):
                 if grid[i][j] == 1:
-                    fresh += 1
+                    f += 1
                 if grid[i][j] == 2:
-                    rotten.append((i, j))
-        res = 0
-        while rotten:
-            new_rotten = []
-            for i, j in rotten:
-                for (ni, nj) in [(i+1, j), (i-1, j), (i, j+1), (i, j-1)]:
-                    if 0 <= ni < m and 0 <= nj < n and grid[ni][nj] == 1:
-                        grid[ni][nj] = 2
-                        fresh -= 1
-                        new_rotten.append((ni, nj))
-            rotten = new_rotten
-            if rotten:
-                res += 1
-        if fresh == 0:
-            return res
-        else:
-            return -1
+                    q.append((i, j, 0))
+        
+        if f == 0:
+            return 0
+        
+        while q:
+            i, j, m = q.popleft()
+            for ni, nj in [(i-1, j), (i+1, j), (i, j-1), (i, j+1)]:
+                if 0 <= ni < len(grid) and 0 <= nj < len(grid[0]) and grid[ni][nj] == 1:
+                    f -= 1
+                    if f == 0:
+                        return m + 1
+                    grid[ni][nj] = 2
+                    q.append((ni, nj, m + 1))
+        
+        return -1

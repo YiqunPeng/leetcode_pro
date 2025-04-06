@@ -4,9 +4,9 @@ class Solution:
 
         Running time: O(n) where n is the length of prices.
         """
-        minp = prices[0]
         res = 0
-        for p in prices:
-            res = max(res, p - minp)
-            minp = min(minp, p)
+        low = prices[0]
+        for p in prices[1:]:
+            res = max(res, p - low)
+            low = min(low, p)
         return res

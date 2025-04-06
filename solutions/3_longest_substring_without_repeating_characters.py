@@ -4,13 +4,13 @@ class Solution:
 
         Running time: O(n) where n is the length of s.
         """
-        d = {}
-        res = st = 0
-        for i, c in enumerate(s):
-            if c in d and st <= d[c]:
-                st = d[c] + 1
-            else:
-                res = max(res, i - st + 1)
-            d[c] = i
+        d = dict()
+        res = 0
+        i = 0
+        for j, c in enumerate(s):
+            if c in d and i <= d[c]:
+                i = d[c] + 1
+            res = max(res, j - i + 1)
+            d[c] = j
         return res
         
