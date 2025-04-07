@@ -4,10 +4,12 @@ class Solution:
 
     	Running time: O(n) where n == len(nums).
     	"""
-        l, r = 0, 1
-        while r < len(nums):
-            if nums[r] != nums[l]:
-                l += 1
-                nums[l] = nums[r]
-            r += 1
-        return l + 1
+        if not nums:
+            return 0
+        
+        k = 1
+        for i in range(1, len(nums)):
+            if nums[i] != nums[i-1]:
+                nums[k] = nums[i]
+                k += 1
+        return k

@@ -1,20 +1,20 @@
 class Solution:
-    
+
     def __init__(self):
-        self.map = {
-            '2': 'abc', '3': 'def', '4': 'ghi', '5': 'jkl', '6': 'mno',
-            '7': 'pqrs', '8': 'tuv', '9': 'wxyz'
-        }
+        self.m = {'2': 'abc', '3': 'def', '4': 'ghi', '5': 'jkl', '6': 'mno',
+            '7': 'pqrs', '8': 'tuv', '9': 'wxyz'}
         self.res = []
-    
+
     def letterCombinations(self, digits: str) -> List[str]:
-        self._dfs(digits, 0, [])
+        if not digits:
+            return self.res
+        self.dfs(digits, '')
         return self.res
     
-    def _dfs(self, digits, pos, rep):
-        if pos == len(digits):
-            if rep:
-                self.res.append(''.join(rep))
-            return
-        for c in self.map[digits[pos]]:
-            self._dfs(digits, pos + 1, rep + [c])
+    def dfs(self, digits, s):
+        if not digits:
+            self.res.append(s)
+            return 
+        for v in self.m[digits[0]]:
+            for c in v:
+                self.dfs(digits[1:], s + c)

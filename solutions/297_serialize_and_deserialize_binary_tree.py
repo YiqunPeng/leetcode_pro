@@ -1,3 +1,10 @@
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
 class Codec:
 
     def serialize(self, root):
@@ -6,10 +13,16 @@ class Codec:
         :type root: TreeNode
         :rtype: str
         """
-        res = []
-        self._preorder(root, res)
-        return ' '.join(res)
-        
+        nodes = self.preorder(root)
+        print(nodes)
+        return ' '.join(nodes)
+
+    def preorder(self, root):
+        if not root:
+            return ['#']
+        l = self.preorder(root.left)
+        r = self.preorder(root.right)
+        return [str(root.val)] + l + r
 
     def deserialize(self, data):
         """Decodes your encoded data to tree.
@@ -17,22 +30,19 @@ class Codec:
         :type data: str
         :rtype: TreeNode
         """
-        values = iter(data.split(' '))
-        return self._decode(values)
-        
-    def _preorder(self, root, res):
-        if root:
-            res.append(str(root.val))
-            self._preorder(root.left, res)
-            self._preorder(root.right, res)
-        else:
-            res.append('#')
-            
-    def _decode(self, values):
-        v = next(values)
-        if v == '#':
+        if not data:
             return None
-        root = TreeNode(int(v))
-        root.left = self._decode(values)
-        root.right = self._decode(values)
-        return root
+        
+        nodes = data.split(' ')
+        return self.decode(deque(nodes))
+
+    def decode(self, nodes):
+        if nodes[0] == '#':
+            nodes.popleft()
+            return None
+        
+        n = TreeNode(int(nodes[0]))
+        nodes.popleft()
+        n.left = self.decode(nodes)
+        n.right = self.decode(nodes)
+        return n

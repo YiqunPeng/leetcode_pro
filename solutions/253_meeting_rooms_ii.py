@@ -4,17 +4,14 @@ class Solution:
 
         Running time: O(nlogn) where n == len(intervals).
         """
-        timestamps = []
+        t = []
         for s, e in intervals:
-            timestamps.append((s, 's'))
-            timestamps.append((e, 'e'))
-        timestamps.sort()
+            t.append((s, 1))
+            t.append((e, -1))
+        t.sort(key=lambda x: (x[0], x[1]))
         res = 0
-        rooms = 0
-        for t, c in timestamps:
-            if c == 's':
-                rooms += 1
-            else:
-                rooms -= 1
-            res = max(res, rooms)
+        room = 0
+        for _, i in t:
+            room += i
+            res = max(res, room)
         return res
