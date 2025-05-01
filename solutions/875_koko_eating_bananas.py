@@ -4,15 +4,19 @@ class Solution:
         """
         l, r = 1, max(piles)
         while l < r:
-            m = (l + r) // 2
-            if self._can_finish(m, h, piles):
-                r = m
+            k = (l + r) // 2
+            hours = self.count_hours(piles, k)
+            if hours <= h:
+                r = k
             else:
-                l = m + 1
+                l = k + 1
         return l
-    
-    def _can_finish(self, k, h, piles):
-        v = 0
+
+    def count_hours(self, piles, k):
+        t = 0
         for p in piles:
-            v += (p - 1) // k + 1
-        return v <= h
+            if p % k == 0:
+                t += p // k
+            else:
+                t += p // k + 1
+        return t

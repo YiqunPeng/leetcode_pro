@@ -14,7 +14,6 @@ class Codec:
         :rtype: str
         """
         nodes = self.preorder(root)
-        print(nodes)
         return ' '.join(nodes)
 
     def preorder(self, root):

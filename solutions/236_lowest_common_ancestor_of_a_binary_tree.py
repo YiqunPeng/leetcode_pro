@@ -10,5 +10,3 @@ class Solution:
             return root
         elif l or r:
             return l or r
-        else:
-            return None

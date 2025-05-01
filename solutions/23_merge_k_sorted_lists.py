@@ -1,20 +1,20 @@
 class Solution:
     def mergeKLists(self, lists: List[ListNode]) -> ListNode:
-        if not lists:
-            return None
-        n = len(lists)
-        if n == 1:
-            return lists[0]
-        f = self.mergeKLists(lists[:n//2])
-        s = self.mergeKLists(lists[n//2:])
-        return self._merge(f, s)
-    
-    def _merge(self, f, s):
-        if not f or not s:
-            return f or s
-        if f.val < s.val:
-            f.next = self._merge(f.next, s)
-            return f
-        else:
-            s.next = self._merge(f, s.next)
-            return s
+        head = ListNode()
+        p = head
+
+        heap = []
+        for i in range(len(lists)):
+            if lists[i]:
+                heappush(heap, (lists[i].val, i))
+        
+        while heap:
+            v, i = heappop(heap)
+            node = lists[i]
+            lists[i] = node.next
+            if lists[i]:
+                heappush(heap, (lists[i].val, i))
+            p.next = node
+            p = node
+        
+        return head.next
