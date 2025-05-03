@@ -1,38 +1,29 @@
 class StringIterator:
 
     def __init__(self, compressedString: str):
-        """Queue.
+        self.s = list(compressedString[::-1])
+        self.c = ''
+        self.v = 0
+        
+        self._populate_letter()
 
-        Running time: O(n) where n is the length of compressedString.
-        """
-        self.q = collections.deque()
-        
-        c, n = '', 0
-        for i in range(len(compressedString)):
-            if compressedString[i].isdigit():
-                n = n * 10 + int(compressedString[i])
-            else:
-                if c:
-                    self.q.append([c, n])
-                c = compressedString[i]
-                n = 0
-        if c:
-            self.q.append([c, n])
-        
+
     def next(self) -> str:
-        """Running time: O(1).
-        """
-        if not self.hasNext():
-            return ' '
-        res = self.q[0][0]
-        if self.q[0][1] == 1:
-            self.q.popleft()
-        else:
-            self.q[0][1] -= 1
-        return res
+        if self.hasNext():
+            self.v -= 1
+            res = self.c
+            if self.v == 0:
+                self._populate_letter()
+            return res
+        return ' '
         
 
     def hasNext(self) -> bool:
-        """Running time: O(1).
-        """
-        return self.q
+        return self.v > 0
+
+
+    def _populate_letter(self):
+        if self.s:
+            self.c = self.s.pop()
+        while self.s and '0' <= self.s[-1] <= '9':
+            self.v = self.v * 10 + int(self.s.pop())
