@@ -3,13 +3,35 @@ class Solution:
         s = sum(nums)
         if s % 2 == 1:
             return False
-        half = s // 2
-        n = len(nums)
-        dp = [False] * (half + 1)
+        half_s = s // 2
+        dp = [False] * (half_s + 1)
         dp[0] = True
-        for i in range(n):
-            for j in range(half, nums[i]-1, -1):
-                dp[j] = dp[j] or dp[j-nums[i]]
-            if dp[half]:
-                return True
+        for n in nums:
+            for i in range(half_s, 0, -1):
+                if i - n >= 0:
+                    dp[i] = dp[i] or dp[i - n]
+                if dp[half_s]:
+                    return True
         return False
+
+
+class Solution2:
+
+    def __init__(self):
+        self.mem = dict()
+
+    def canPartition(self, nums: List[int]) -> bool:
+        s = sum(nums)
+        if s % 2 == 1:
+            return False
+        return self._dfs(nums, 0, 0, s // 2)
+
+    def _dfs(self, nums, idx, curr, half):
+        if idx == len(nums):
+            return curr == half
+        if (idx, curr) in self.mem:
+            return self.mem[(idx, curr)]
+        p1 = self._dfs(nums, idx+1, curr+nums[idx], half)
+        p2 = self._dfs(nums, idx+1, curr, half)
+        self.mem[(idx, curr)] = p1 or p2
+        return self.mem[(idx, curr)]
