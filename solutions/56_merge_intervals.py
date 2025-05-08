@@ -4,13 +4,11 @@ class Solution:
 
     	Running time: O(nlogn) where n == len(intervals).
     	"""
-        intervals.sort(key=lambda x:x[0])
-        l, r = 0, 1
-        while r < len(intervals):
-            if intervals[l][1] >= intervals[r][0]:
-                intervals[l][1] = max(intervals[l][1], intervals[r][1])
+        intervals.sort(key=lambda x: x[0])
+        res = [intervals[0]]
+        for s, e in intervals[1:]:
+            if s <= res[-1][1]:
+                res[-1][1] = max(res[-1][1], e)
             else:
-                l += 1
-                intervals[l] = intervals[r]
-            r += 1
-        return intervals[:l+1]
+                res.append([s, e])
+        return res
