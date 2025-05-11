@@ -1,28 +1,24 @@
 class Solution:
     def threeSum(self, nums: List[int]) -> List[List[int]]:
-        """Two pointers.
+        """
 
         Running time: O(n^2) where n == len(nums).
         """
-        nums.sort()
+        ctr = Counter(nums)
+        keys = sorted(ctr.keys())
         res = []
-        for i in range(len(nums)-2):
-            if i and nums[i] == nums[i-1]:
-                continue
-            if nums[i] > 0:
+        for i in range(len(keys)):
+            if keys[i] > 0:
                 break
-            j, k = i + 1, len(nums) - 1
-            while j < k:
-                if nums[i] + nums[j] + nums[k] == 0:
-                    res.append([nums[i], nums[j], nums[k]])
-                    while j < k and nums[j] == nums[j+1]:
-                        j += 1
-                    while j < k and nums[k] == nums[k-1]:
-                        k -= 1
-                    j += 1
-                    k -= 1
-                elif nums[i] + nums[j] + nums[k] > 0:
-                    k -= 1
-                else:
-                    j += 1
+            for j in range(i, len(keys)):
+                c = -keys[i] - keys[j]
+                if c < keys[j] or c not in ctr:
+                    continue
+                if keys[i] == keys[j] == c and ctr[c] < 3:
+                    continue
+                if keys[i] == keys[j] and ctr[keys[i]] < 2:
+                    continue
+                if keys[j] == c and ctr[c] < 2:
+                    continue
+                res.append([keys[i], keys[j], c])
         return res

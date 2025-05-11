@@ -1,20 +1,9 @@
-from collections import Counter
-
 class Solution:
-    def commonChars(self, A: List[str]) -> List[str]:
-        """Hash table.
-
-        Running time: O(n) where n is the lenght of A.
-        """
-        d = Counter(A[0])
-        for a in A[1:]:
-            da = Counter(a)
-            for k, v in d.items():
-                if k not in da:
-                    d[k] = 0
-                else:
-                    d[k] = min(v, da[k])
+    def commonChars(self, words: List[str]) -> List[str]:
+        common = Counter(words[0])
+        for w in words[1:]:       
+            common &= Counter(w)
         res = []
-        for k, v in d.items():
+        for k, v in common.items():
             res.extend([k] * v)
         return res
